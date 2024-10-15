@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text">
+  <info>
+    <title>Minimal Citation Style</title>
+    <id>minimal-citation-style</id>
+  </info>
+  <citation>
+    <layout delimiter=", ">
+      <text variable="locator"/>
+    </layout>
+  </citation>
+</style>
