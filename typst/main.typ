@@ -343,7 +343,7 @@ cal(M)_3:{
 $<eq:3new-M>
 This feature is also visualized in @fig:new-measurements, as one can see the vectors corresponding to $cal(M)_i$ are along the Cartesian axes (i.e. the same direction for Pauli matrices), but only shrunken.
 
-For a qubit state defined by the probability vector of @eq:kp-vector in the SIC-POVM basis of @eq:qbism, the measurement probabilities for $cal(M)_1$ is ${q,1-q}$ and for $cal(M)_3$ is ${p,1-p}$. Additionally, $cal(M)_1$, $cal(M)_2$ and $cal(M)_3$ can be treated as shrunk version of projective measurements of Pauli operators $sigma_x$, $sigma_y$ and $sigma_z$, respectively. For a generic state such as $1 / 2 (bb(I) + arrow(r) . arrow(sigma))$, the Pauli-Z probabilities are ${1/2(1-r_z),1/2(1+r_z)}$, while for $cal(M)_3$ the probabilities are ${1/6 (3 - √(3) r_z), 1/6 (3 - √(3) r_z)}$; likewise for Pauli-X, one gets ${1/2(1-r_x),1/2(1+r_x)}$ while those of $cal(M)_1$ are ${1/6 (3 - √(3) r_x), 1/6 (3 - √(3) r_x)}$. In other words, given any projective measurement for Pauli matrices, if their probabilities is denoted by $p$, the corresponding $cal(M)_i$ probabilities will be given by 
+For a qubit state defined by the probability vector of @eq:kp-vector in the SIC-POVM basis of @eq:qbism, the measurement probabilities for $cal(M)_1$ is ${q,1-q}$ and for $cal(M)_3$ is ${p,1-p}$. Additionally, $cal(M)_1$, $cal(M)_2$ and $cal(M)_3$ can be treated as shrunk version of projective measurements of Pauli operators $sigma_x$, $sigma_y$ and $sigma_z$, respectively. For a generic state such as $1 / 2 (bb(I) + arrow(r) . arrow(sigma))$, the Pauli-Z probabilities are ${1/2(1-r_z),1/2(1+r_z)}$, while for $cal(M)_3$ the probabilities are ${1/6 (3 - √(3) r_z), 1/6 (3 + √(3) r_z)}$; likewise for Pauli-X, one gets ${1/2(1-r_x),1/2(1+r_x)}$ while those of $cal(M)_1$ are ${1/6 (3 - √(3) r_x), 1/6 (3 + √(3) r_x)}$. In other words, given any projective measurement for Pauli matrices, if their probabilities is denoted by $p$, the corresponding $cal(M)_i$ probabilities will be given by 
 $p -> 1/√(3)(p-1/2)+1/2$.
 Shrinking can also be expressed with the following doubly-stochastic matrix:
 
@@ -490,7 +490,7 @@ SIC-POVMs offer an elegant framework for representing qubit states geometrically
 Computational aspects of this paper (e.g., mathematical derivation of formulas and visualizations) were done in the version 14.0 of the Wolfram Language. We also extensively used the Wolfram quantum framework, which a library of functionalities to perform symbolic and numeric quantum computation in the discrete finite-dimensional vector space. 
 
 #pagebreak()
-
+// add style to handle multireference cite
 #bibliography("references.bib", full: true)
 
 #pagebreak()
