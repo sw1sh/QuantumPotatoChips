@@ -48,9 +48,9 @@
 A qubit in a normalized quantum state can be expressed in the basis ${bb(I), sigma_x, sigma_y, sigma_z}$ as a 4-vector $1/2{1, r_x, r_y, r_z}$, with $r_(x,y,z) in bb(R)$. The condition $abs(arrow(r))<=1$ ensures that the density matrix is positive semi-definite, corresponding to a _physical_ state. Since the first component of the 4-vector is fixed, the state can be fully described by the Bloch vector $arrow(r) = {r_x, r_y, r_z}$ in $bb(R)^3$. Alternatively, in an appropriate basis, the qubit state can be represented as a probability 4-vector ${ p_1, p_2, p_3, p_4 }$ with $sum_i p_i = 1$ and $p_i >= 0$, known as the probability phase-space representation. Symmetric Informationally Complete Positive Operator-Valued Measures (SIC-POVMs) are optimal for such representations due to their symmetry and informational completeness
 //#####
 //Consider a qubit in a generic normalized state#footnote[In this paper, we will focus only on quantum theory in the discrete vector space.]. In the basis ${ bb(I) , sigma_x , sigma_y , sigma_z }$, the qubit state is described by the 4-vector $1 / 2 { 1 , r_x , r_y , r_z }$ with $r_(x , y , z) in bb(R)$. The condition $abs(arrow(r)) <= 1$ guarantees that the state can be a _physical_ state (i.e., the density matrix is positive semi-definite). Since the first element of the 4-vector is 1/2, one can drop it, and thus the quantum state can be described in $bb(R)^3$ by the Bloch vector $arrow(r)={r_x,r_y,r_z}$, given the mentioned basis. Alternatively, in a proper basis, a qubit state (i.e. the state vector) can be represented by a _probability_ 4-vector as ${ p_1 , p_2 , p_3 , p_4 }$ with $sum_i p_i = 1$ and $p_i gt.eq 0$. This is what we refer to as the probability phase-space representation, where quantum state (or any quantum process such as operator, measurement or channel) can be represented by probability vectors. In this regard, Symmetric Informationally Complete Positive Operator-Valued Measures (SIC-POVMs) are ideal choice due to their symmetry and optimality 
-@renes2004symmetric @saraceno2017phase @fuchs2017sic @appleby2017introducing @scott2010symmetric @appleby2014symmetric.
+// @renes2004symmetric @saraceno2017phase @fuchs2017sic @appleby2017introducing @scott2010symmetric @appleby2014symmetric.
 //########
-//#bib(<renes2004symmetric>, [[1-4]]). 
+#bib(<renes2004symmetric>, [[1-6]]). 
 // @tab:quantum_povm illustrates the probability phase-space representation of various quantum states using the Tetrahedron SIC-POVM #footnote[Tetrahedron SIC-POVM elements are given by
 // ${{1 / 2, 0},{ 0, 0}}$,
 // ${{ 1 / 6, frac(i - √3, √2 (3 i + 3 √3))},{- frac(i √2, 3 i + 3 √3), 1 / 3}}$, ${{ 1 / 6, frac(i + √3, √2 (3 i - 3 √3))},{ frac(i √2, 3 (- i + √3)), 1 / 3}}$,
@@ -106,6 +106,13 @@ $
   mat(delim: "[", 3, 3, 3, 3; - 3, 5, - 1, - 1; - 3, - 1, 5, - 1; - 3, - 1, - 1, 5), 
 $<eq:transformation>
 
+$
+U_(upright("rot"))(theta) = mat(delim: "(", cos (theta), frac(sin (theta), sqrt(3)), frac(sin (theta), sqrt(3)), frac(sin (theta), sqrt(3)); - frac(sin (theta), sqrt(3)), 1 / 3 (cos (theta) + 2), 1 / 3 (cos (theta) - 1), 1 / 3 (cos (theta) - 1); - frac(sin (theta), sqrt(3)), 1 / 3 (cos (theta) - 1), 1 / 3 (cos (theta) + 2), 1 / 3 (cos (theta) - 1); - frac(sin (theta), sqrt(3)), 1 / 3 (cos (theta) - 1), 1 / 3 (cos (theta) - 1), 1 / 3 (cos (theta) + 2))
+$
+
+// $
+// U_(i j) = 1/2[δ_(i 1) - δ_(j 1) + δ_(i 1) δ_(j 1) + (1 - δ_(j 1)) * 2(1 - δ_(i 1)) * (I_(i j) - 1/6)]
+// $
 
 // #float(
 // [
@@ -305,7 +312,10 @@ the corresponding Matthews correlation coefficient is given by:
 phi = (p_22 p_11 - p_12 p_21) / sqrt((p_11 + p_12)(p_21+p_22)(p_11+p_21)(p_12+p_22)) = (sqrt(3)y-x z)/(sqrt((x^2-3)(z^2-3))),
 $ <matthews>
 //]
-where in the last step, we replace variables by the Bloch vector components ${x,y,z}$ using @eq:inverse-replacement-rule. As shown in @fig:matthew, the only region with $phi=0$ is the quantum potato chip. This means that measurement predictions in @prob_vector, which can be obtained experimentally by measuring POVMs, are uncorrelated, much like flipping a fair coin (probabilities are evenly split as described by @eq:kp-vector).
+where in the last step, we replace variables by the Bloch vector components ${x,y,z}$ using @eq:inverse-replacement-rule. 
+
+As shown in @fig:matthew, the only region with $phi=0$ is the quantum potato chip. This means that measurement predictions in @prob_vector, which can be obtained experimentally by measuring POVMs, are uncorrelated, much like flipping a fair coin (probabilities are evenly split as described by @eq:kp-vector). It also implies that the quantum states within the quantum potato chips can be represented as a product state in terms of the measurement bases associated with the SIC-POVM; highlighting a scenario where the qubit's state does not exhibit quantum correlations between certain SIC-POVM measurement outcomes.
+
 
 #subpar.grid(
   columns: (1fr, 1fr),
