@@ -227,7 +227,7 @@ mat(
 $<eq:density-phase-space>
 
 whose eigenvalues are:
-$ 1/2 (1 plus.minus sqrt(3) sqrt(8 (p_1^2+p_1 (p_2+p_3-1)+p_2^2+p_2 p_3+p_3^2)-8 p_2-8 p_3+3)).
+$ 1/2 (1 plus.minus sqrt(3) sqrt(8 (p_1^2+p_1 (p_2+p_3-1)+p_2^2+p_2 p_3+p_3^2)-8 p_2-8 p_3+3))=1/2(1 plus.minus sqrt(x^2+y^2+z^2)).
 $<eq:eigenvalues>
 
 By comparing the vectorized density matrix in the Bloch sphere, $1/2{1+z, x - i y,x + i y, 1-z}$, with its counterpart in the phase-space as expressed in @eq:density-phase-space, one finds that the probability vector $arrow(p)$ is related to the Bloch vector ${x,y,z}$ by the following replacement rule and its inverse: 
@@ -309,7 +309,7 @@ $ <matthews>
 //]
 where in the last step, we replace variables by the Bloch vector components ${x,y,z}$ using @eq:inverse-replacement-rule. 
 
-As shown in @fig:matthew, the only region with $phi=0$ is the quantum potato chip. This means that measurement predictions in @eq:prob_vector, which can be obtained experimentally by measuring POVMs, are uncorrelated, much like flipping a fair coin (probabilities are evenly split as described by @eq:kp-vector). It also implies that the quantum states within the quantum potato chips can be represented as a product state in terms of the measurement bases associated with the SIC-POVM; highlighting a scenario where the qubit's state does not exhibit quantum correlations between certain SIC-POVM measurement outcomes.
+As shown in @fig:matthew, the only region with $phi=0$ is the quantum potato chip. This means that measurement predictions in @eq:prob_vector, which can be obtained experimentally by measuring POVMs, are uncorrelated, much like flipping a fair coin (probabilities are evenly split as described by @eq:kp-vector). It also implies that the quantum states within the quantum potato chips can be represented as a product state in terms of the measurement bases associated with the SIC-POVM; highlighting a scenario where the qubit state does not exhibit quantum correlations between certain SIC-POVM measurement outcomes.
 
 
 #subpar.grid(
