@@ -118,7 +118,7 @@ For a qubit state in a SIC-POVM, the probability vector is confined within a sim
 In an Informationally-Complete POVM (IC-POVM), a qubit state is fully described by a probability $4$-vector ${p_1,p_2,p_3,p_4}$ with $sum_i p_i=1$ and $p_i>=0$. The space of probability vectors is the unit standard simplex in $bb(R)^4$, spanned by points ${1, 0, 0, 0}$, ${0, 1, 0, 0}$, ${0, 0, 1, 0}$, and ${0, 0, 0, 1}$. This is a region with the embedding dimension 4 and the geometric dimension 3. Therefore, one can reduce the embedding dimension to 3. Consider the following rotation matrix:
 
 #eqcode($
-U_(upright("rot"))(theta) = mat(delim: "(", cos (theta), frac(sin (theta), sqrt(3)), frac(sin (theta), sqrt(3)), frac(sin (theta), sqrt(3)); - frac(sin (theta), sqrt(3)), 1 / 3 (cos (theta) + 2), 1 / 3 (cos (theta) - 1), 1 / 3 (cos (theta) - 1); - frac(sin (theta), sqrt(3)), 1 / 3 (cos (theta) - 1), 1 / 3 (cos (theta) + 2), 1 / 3 (cos (theta) - 1); - frac(sin (theta), sqrt(3)), 1 / 3 (cos (theta) - 1), 1 / 3 (cos (theta) - 1), 1 / 3 (cos (theta) + 2)),
+U_(upright("rot"))(theta) = mat( cos theta, frac(sin theta, sqrt(3)), frac(sin theta, sqrt(3)), frac(sin theta, sqrt(3)); - frac(sin theta, sqrt(3)), 1 / 3 (cos theta + 2), 1 / 3 (cos theta - 1), 1 / 3 (cos theta - 1); - frac(sin theta, sqrt(3)), 1 / 3 (cos theta - 1), 1 / 3 (cos theta + 2), 1 / 3 (cos theta - 1); - frac(sin theta, sqrt(3)), 1 / 3 (cos theta - 1), 1 / 3 (cos theta - 1), 1 / 3 (cos theta + 2)),
 $, <eq:gen-rotation>, <code:gen-rotation>)
 which represents a 4D rotation by $theta$ in the plane spanned by ${1,1,1,1}$ and ${1,0,0,0}$. For the special case of $theta=pi/3$, one gets:
 $
@@ -324,7 +324,7 @@ As shown in @fig:matthew, the only region with $phi=0$ is the quantum potato chi
   label:<fig:matthew>
 )
 
-The @eq:matthews takes a more natural form if Bloch sphere's radius is $1/sqrt(3)$:
+The @eq:matthews takes a more natural form if Bloch sphere's radius is $1/sqrt(3)$#footnote[Read our footnote for insphere, after @eq:chip1]:
 
 $
 phi = (y-x z)/(sqrt((1-x^2)(1-z^2))),
@@ -354,7 +354,15 @@ cal(M)_3:{
 $<eq:3new-M>
 This feature is also visualized in @fig:new-measurements, as one can see the vectors corresponding to $cal(M)_i$ are along the Cartesian axes (i.e. the same direction for Pauli matrices), but only shrunken.
 
-For a qubit state defined by the probability vector of @eq:kp-vector in the SIC-POVM basis of @eq:qbism, the measurement probabilities for $cal(M)_1$ is ${q,1-q}$ and for $cal(M)_3$ is ${p,1-p}$. Additionally, $cal(M)_1$, $cal(M)_2$ and $cal(M)_3$ can be treated as shrunk version of projective measurements of Pauli operators $sigma_x$, $sigma_y$ and $sigma_z$, respectively. For a generic state such as $1 / 2 (bb(I) + arrow(r) . arrow(sigma))$, the Pauli-Z probabilities are ${1/2(1-z),1/2(1+z)}$, while for $cal(M)_3$ the probabilities are ${1/6 (3 - √(3) z), 1/6 (3 + √(3) z)}$; likewise for Pauli-X, one gets ${1/2(1-x),1/2(1+x)}$ while those of $cal(M)_1$ are ${1/6 (3 - √(3) x), 1/6 (3 + √(3) x)}$. In other words, given any projective measurement for Pauli matrices, if their probabilities is denoted by $p$, the corresponding $cal(M)_i$ probabilities will be given by 
+For a qubit state defined by the probability vector of @eq:kp-vector in the SIC-POVM basis of @eq:qbism, the measurement probabilities for $cal(M)_1$ is ${q,1-q}$ and for $cal(M)_3$ is ${p,1-p}$. Additionally, $cal(M)_1$, $cal(M)_2$ and $cal(M)_3$ can be treated as shrunk version of projective measurements of Pauli operators $sigma_x$, $sigma_y$ and $sigma_z$, respectively. For a generic state such as $1 / 2 (bb(I) + arrow(r) . arrow(sigma))$, the Pauli-Z probabilities are ${1/2(1-z),1/2(1+z)}$, while for $cal(M)_3$ the probabilities are ${1/6 (3 - √(3) z), 1/6 (3 + √(3) z)}$; likewise for Pauli-X, one gets ${1/2(1-x),1/2(1+x)}$ while those of $cal(M)_1$ are ${1/6 (3 - √(3) x), 1/6 (3 + √(3) x)}$. These results can be also found directly from the density matrix in the QBism SIC-POVM basis:
+$ 1/(4 sqrt(3)) mat(
+(sqrt(3) + x - y + z), 
+(sqrt(3) - x + y + z);
+ (sqrt(3) + x + y - z), 
+ (sqrt(3) - x - y - z)).
+$<eq:sic-density>
+Adding up columns in @eq:sic-density return $cal(M)_1$ probabilities, while for rows summation, one gets $cal(M)_3$ probabilities.
+Additionally, given any projective measurement for Pauli matrices, if their probabilities is denoted by $p$, the corresponding $cal(M)_i$ probabilities will be given by 
 $p -> 1/√(3)(p-1/2)+1/2$.
 Shrinking can also be expressed with the following doubly-stochastic matrix:
 
@@ -372,7 +380,7 @@ $<eq:stoch-shrink>
 
 Therefore, for any state within quantum potato chips, one can perform Pauli-X and Pauli-Z projective measurements and record corresponding probabilities. By transforming these probabilities using @eq:stoch-shrink, one recovers $p$ and $q$, and thus reconstructing the probability vector in @eq:kp-vector; meaning constructing the quantum state, fully. One should notice that this process is doable only for quantum potato chip and no other states. 
 
-Given the state vector from @eq:kp-vector with parameters $p = 1/3$ and $q = 2/5$, the QBism SIC-POVM probabilities are ${2/15, 1/5, 4/15, 2/5}$. For measurements $cal(M)_3$ and $cal(M)_1$, the probabilities are ${1/6(3-sqrt(3)),1/6(3+sqrt(3))}$ and ${1/10 (5-sqrt(3)), 1/10 (5+sqrt(3))}$, respectively. For Pauli-Z and Pauli-X projective measurements, or after applying the transformation from @eq:stoch-shrink, the probabilities are ${1/3,2/3}$ and ${2/5,3/5}$, respectively. Their Kronecker product also yields ${2/15, 1/5, 4/15, 2/5}$.
+Consider one specific example. Given the state vector from @eq:kp-vector with parameters $p = 1/3$ and $q = 2/5$, the QBism SIC-POVM probabilities are ${2/15, 1/5, 4/15, 2/5}$. For measurements $cal(M)_3$ and $cal(M)_1$, the probabilities are ${1/6(3-sqrt(3)),1/6(3+sqrt(3))}$ and ${1/10 (5-sqrt(3)), 1/10 (5+sqrt(3))}$, respectively. For Pauli-Z and Pauli-X projective measurements, or after applying the transformation from @eq:stoch-shrink, the probabilities are ${1/3,2/3}$ and ${2/5,3/5}$, respectively. Their Kronecker product also yields ${2/15, 1/5, 4/15, 2/5}$.
 
 This factorization allows us to decouple the probability 4-vector in a 3-simplex into two lower-dimensional disjoint distributions in 1-simplices. Consequently, the probability space for quantum potato chip can be viewed as the product of two independent subspaces, each governed by their respective probability distributions. 
 //This construction reflects the disjoint nature of the probability distributions for quantum potato chip, and highlights the independence between the two subspaces. 
@@ -392,15 +400,16 @@ $, <eq:wootters-matrix>, <code:wootters-matrix>
 )
 
 
-In Wootters basis, a quantum state with a Bloch vector ${x,y,z}$ is described by:
-@code:bloch-in-wooters[$ mat(
-1/4 (1 + x + y + z), 1/4 (1 + x - y - z); 1/4 (1 - x - y + z), 
- 1/4 (1 - x + y - z)
-).
-$<eq:bloch-in-wooters>]
-The summation of elements along a column results in $1/2(1+z)$ and $1/2(1-z)$, which represent the probabilities associated with projective measurements along the Pauli-Z axis. Similarly, summing the elements along a row yields $1/2(1+x)$ and $1/2(1-x)$, which correspond to the probabilities of measurements along the Pauli-X axis#footnote[Pauli-Z and Pauli-X measurement can be interpreted as the position (Pauli-Z) and momentum (Pauli-X) measurements within the phase space.]. In other words, in this case, there is no need for shrinking or applying any extra transformation as in @eq:stoch-shrink for SIC-POVM case.
+In Wootters basis, the density matrix for a Bloch vector ${x,y,z}$ is described by:
+#eqcode($ 
+  mat(
+  1/4 (1 + x + y + z), 1/4 (1 + x - y - z); 
+  1/4 (1 - x - y + z), 1/4 (1 - x + y - z)
+    ).
+$,<eq:bloch-in-wooters>,<code:bloch-in-wooters>)
+The summation of elements in @eq:bloch-in-wooters along columns results in $1/2(1+z)$ and $1/2(1-z)$, which represent the probabilities associated with projective measurements along the Pauli-Z axis. Similarly, summing the elements along rows yields $1/2(1+x)$ and $1/2(1-x)$, which correspond to the probabilities of measurements along the Pauli-X axis#footnote[Pauli-Z and Pauli-X measurement can be interpreted as the position (Pauli-Z) and momentum (Pauli-X) measurements within the phase space.]. In other words, in this case, there is no need for shrinking or applying any extra transformation as in @eq:stoch-shrink for SIC-POVM case.
 
-This phase-space basis is a shrunken version of the SIC-POVM basis as the new probability vector in this basis would no longer be a proper distribution, but a quasi-distribution with its entries outside $[0,1]$ interval. It is usually referred to as _quasi_-distribution. This provides a new insight into quantum potato chips because states within chips correspond to the subset of quasi-distributions with all entries being positive.
+Wootters phase-space basis is no longer a proper distribution, and it is usually referred to as _quasi_-distribution. This provides a new insight into quantum potato chips because states within chips correspond to the subset of quasi-distributions with all entries being positive.
 
 #subpar.grid(
   figure(
@@ -430,6 +439,56 @@ $ q=1/2(1 plus.minus √(((1-p)p) / (2(1 - 2p + 2p^2)))). $<eq:constraint-Wootte
 A similar factorization argument for the probability vectors of the quantum potato chip can be applied in this context. However, it is crucial to note that, unlike the SIC-POVM case, the probabilities here do not necessarily correspond to directly measurable quantities, as they may take on negative values. 
 
 // #figure(image("Matreshka.png",width: 60%), caption: [@Matreshka[The correspondence between the probabilistic phase-space basis, quasi-probabilistic Feynman basis @Feynman1987-vj and SIC-POVM projectors. Each tetrahedron is a scaled down version of the previous one by a factor of $sqrt(3)$]])<fig:matreshka>
+
+= Effect of errors on quantum potato chip
+In this section, we explore the impact of noise on the quantum potato chip. Specifically, we model various types of errors using the quantum channels. See @tab:channels for detailed description of quantum channels, their Kraus operators and how they influence Bloch sphere.
+The Bloch vector of quantum potato chip, ${sqrt(3) (-1 + 2 q), sqrt(3)(-1 + p (2 - 4 q) + 2 q),sqrt(3) (-1 + 2 p)}$ will be transformed into a new one as show in the following equation, for bit flip, phase flip, bit-phase flip, depolarization, amplitude damping, and phase damping, respectively:
+$
+// mat("BitFlip";
+// "PhaseFlip";
+// "BitPhaseFlip";
+// "Depolarization";
+// "AmplitudeDamping";
+// "PhaseDamping") arrow
+mat(delim: #none,
+  "BitFlip: " {sqrt(3) (-1 + 2 q);
+  sqrt(3) (-1 + 2 p) (-1 + 2 q) (-1 + 2 xi);
+  sqrt(3) (-1 + 2 p) (1 - 2 xi)};
+  "PhaseFlip: " {sqrt(3) (-1 + 2 q) (1 - 2 xi), 
+  sqrt(3) (-1 + 2 p) (-1 + 2 q) (-1 + 2 xi), 
+  sqrt(3) (-1 + 2 p)};
+ "BitPhaseFlip: " {sqrt(3) (-1 + 2 q) (1 - 2 ), -sqrt(3) (-1 + 2 p) (-1 + 2 q), sqrt(3) (-1 + 2 p) (1 - 2 xi)};
+ "Depolarization: "
+ {-sqrt(3) (-1 + 2 q) (-1 + xi), 
+ sqrt(3) (-1 + 2 p) (-1 + 2 q) (-1 + xi), sqrt(3) (-1 + 2 p) (-1 + xi)};
+ "AmplitudeDamping: "
+{(-1 + 2 q) sqrt(3 - 3 xi), -((-1 + 2 p) (-1 + 2 q) sqrt(
+    3 - 3 xi)), -sqrt(3) - 
+  2 sqrt(3) p (-1 + xi) + xi + sqrt(3) xi};
+ "PhaseDamping: " 
+{(-1 + 2 q) sqrt(3 - 3 xi), -((-1 + 2 p) (-1 + 2 q) sqrt(3 - 3 xi)), 
+ sqrt(3) (-1 + 2 p)}
+) $
+
+#[#set text(9.5pt)
+#show math.equation: set text(size: 8pt)
+#figure(
+  align(center)[#table(
+    columns: 3,
+    align: (center,center,),
+    table.header([#strong[Channel name];], [#strong[List of Kraus operators];],[#strong[Channel's effect on Bloch sphere];]),
+    table.hline(),
+    [Bit flip], [${sqrt(xi) space sigma_x,sqrt(1-xi) space bb(I)}$],table.cell(rowspan: 6)[#image("images/channels.png",width:75%)],
+    [Phase flip], [${sqrt(xi) space sigma_z,sqrt(1-xi) space bb(I)}$],
+    [Bit-phase flip], [${sqrt(xi) space sigma_y,sqrt(1-xi) space bb(I)}$],
+    [Depolarization], [${sqrt(xi/4) space sigma_x,sqrt(xi/4) space sigma_y,sqrt(xi/4) space sigma_z,sqrt(1-(3xi)/4) space bb(I)}$],
+    [Amplitude damping], [${(1-sqrt(xi))/2 sigma_z+(1+sqrt(1-xi))/2 bb(I),sqrt(xi)/2 sigma_x+i sqrt(xi)/2 sigma_y }$],
+    [Phase damping], [${(1-sqrt(1-xi))/2 sigma_z+(1+sqrt(1-xi))/2 bb(I),&\
+    &sqrt(xi)/2 bb(I)- sqrt(xi)/2 sigma_z }$]
+  )]
+  , caption: [xxx]
+  )<tab:channels>
+])
 
 
 = Unconventional Liouvillian Evolution at the Boundary of Quantum Potato Chip
