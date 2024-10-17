@@ -177,43 +177,51 @@ $ {-1/6 + q - (4 p q)/3,
 
 
 == Bloch Sphere
-Consider the following SIC-POVM for qubits#footnote[Any other SIC-POVM for qubits is simply a rotational transformation of this QBism SIC-POVM.] (usually called as the QBism SIC-POVM), with POVM elements as follows:
+Consider the following SIC-POVM for qubits (further referred to as the QBism SIC-POVM)#footnote[Any other SIC-POVM for qubits is simply a rotational transformation of this QBism SIC-POVM.], generated from a fiducial vector ${e^(-(3pi)/4)(sqrt(3) - 1), 1}$ #footnote[By applying Weyl-Heisenberg displacement operators $X^p Z^q$ for $p,q in {0,1}$.] and POVM elements as follows:
 #[
 #set text(9.5pt)
 $
-cal(Q)_1=mat(
-  (3 + √3)/12, (1 + i )/(4sqrt(3));
-  (1 - i )/(4sqrt(3)), (3 - √3)/12), space
-cal(Q)_2=mat(
-  (3 + √3)/12, -(1 + i )/(4sqrt(3));
-  -(1 - i )/(4sqrt(3)), (3 - √3)/12), space
-cal(Q)_3=mat(
-  (3 - √3)/12, (1 - i )/(4sqrt(3));
-  (1 + i )/(4sqrt(3)), (3 + √3)/12), space
-cal(Q)_4=mat(
-  (3 - √3)/12, -(1 - i )/(4sqrt(3));
-     -(1 + i )/(4sqrt(3)), (3 + √3)/12),
+cal(Q)_1=1/12mat(
+  3 - √3,
+  sqrt(6)e^(-i (3pi)/4);
+  sqrt(6)e^(i (3pi)/4),
+  3 + √3), space
+cal(Q)_2=1/12mat(
+  3 - √3,
+  sqrt(6)e^(i (pi)/4);
+  sqrt(6)e^(-i (pi)/4),
+  3 + √3), space \
+cal(Q)_3=1/12mat(
+  3 + √3,
+  sqrt(6)e^(i (3pi)/4);
+  sqrt(6)e^(-i (3pi)/4),
+  3 - √3), space
+cal(Q)_4=1/12mat(
+  3 + √3,
+  sqrt(6)e^(-i (pi)/4);
+  sqrt(6)e^(i (pi)/4),
+  3 - √3),
 $ <eq:povm>]
 where $sum_i cal(Q)_i=bb(I)$ and $Q_i>=0$.
-These POVM elements correspond to the following Bloch vectors, respectively: ${1/(2√3), -1/(2√3), 1/(2√3)}$, ${-1/(2√3), 1/(2√3), 1/(2√3)}$, ${1/(2√3), 1/(2√3), -1/(2√3)}$, ${-1/(2√3), -1/(2√3), -1/(2√3)}$ (see @fig:basis-vs-povm and @fig:chip-in-bloch). Likewise, the corresponding phase-space basis matrix for this SIC-POVM is given by:
+These POVM elements correspond to the following Bloch vectors, respectively#footnote[More precisely its projectors: $Pi_i=2cal(Q)_i$. All Bloch vectors are computed from normalized density matrices ($tr(rho)=1$).]: ${-1/√3, 1/√3, -1/√3}$, ${1/√3, -1/√3, -1/√3}$, ${-1/√3, -1/√3, 1/√3}$, ${1/√3, 1/√3, 1/√3}$ (see @fig:basis-vs-povm and @fig:chip-in-bloch). Likewise, the corresponding phase-space basis matrix for this SIC-POVM is given by:
 $
 cal(B)=
-{mat((1 + sqrt(3))/2;
+{mat((1 - sqrt(3))/2;
+      e^(-i (3pi)/4)sqrt(3/2);
+      e^(i (3pi)/4)sqrt(3/2);
+      (1 + sqrt(3))/2),
+mat((1 - sqrt(3))/2;
       e^(i pi/4)sqrt(3/2);
       e^(-i pi/4)sqrt(3/2);
+      (1 + sqrt(3))/2),
+mat((1 + sqrt(3))/2;
+      e^(i (3pi)/4)sqrt(3/2);
+      e^(-i (3pi)/4)sqrt(3/2);
       (1 - sqrt(3))/2),
 mat((1 + sqrt(3))/2;
-      -e^(i pi/4)sqrt(3/2);
-      -e^(-i pi/4)sqrt(3/2);
-      (1 - sqrt(3))/2),
-mat((1 - sqrt(3))/2;
       e^(-i pi/4)sqrt(3/2);
       e^(i pi/4)sqrt(3/2);
-      (1 + sqrt(3))/2),
-mat((1 - sqrt(3))/2;
-      -e^(-i pi/4)sqrt(3/2);
-      -e^(i pi/4)sqrt(3/2);
-      (1 + sqrt(3))/2),
+      (1 - sqrt(3))/2),
 }.
 $<eq:qbism>
 
@@ -222,9 +230,9 @@ For a probability vector $arrow(p)={p_1,p_2,p_3,1-(p_1+p_2+p_3)}$ in the basis o
   $
 arrow(rho) =& cal(B).arrow(p) = 
 mat(
-     √3(p_1+p_2)+(1-√3)/2; 
-     e^(-i pi/4)sqrt(3/2)((1+i)p_1+(1-i)p_2+2p_3-1);
-    e^(i pi/4)sqrt(3/2)((1-i)p_1+(1+i)p_2+2p_3-1); 
+     -√3(p_1+p_2)+(1-√3)/2; 
+     sqrt(3/2)e^(i (3pi)/4)((1+i)p_1+(1-i)p_2+2p_3-1);
+    sqrt(3/2)e^(i pi/4)((1-i)p_1+(1+i)p_2+2p_3-1); 
     -√3(p_1+p_2)+(√3+1)/2;
   ),
 $<eq:density-phase-space>
@@ -442,6 +450,28 @@ A similar factorization argument for the probability vectors of the quantum pota
 
 = Effect of errors on quantum potato chip
 In this section, we explore the impact of noise on the quantum potato chip. Specifically, we model various types of errors using the quantum channels. See @tab:channels for detailed description of quantum channels, their Kraus operators and how they influence Bloch sphere.
+
+
+#[#set text(9.5pt)
+#show math.equation: set text(size: 8pt)
+#figure(
+  align(horizon)[#table(
+    columns: 3,
+    rows: (.5cm, 1cm),
+    table.header([#strong[Channel name];], [#strong[List of Kraus operators];],[#strong[Channel's effect on Bloch sphere];]),
+    table.hline(),
+    [Bit flip], [${sqrt(xi) space sigma_x,sqrt(1-xi) space bb(I)}$],table.cell(rowspan: 6)[#image("images/channels.png",width:75%)],
+    [Phase flip], [${sqrt(xi) space sigma_z,sqrt(1-xi) space bb(I)}$],
+    [Bit-phase flip], [${sqrt(xi) space sigma_y,sqrt(1-xi) space bb(I)}$],
+    [Depolarization], [${sqrt(xi/4) space sigma_x,sqrt(xi/4) space sigma_y,sqrt(xi/4) space sigma_z,sqrt(1-(3xi)/4) space bb(I)}$],
+    [Amplitude damping], [${(1-sqrt(xi))/2 sigma_z+(1+sqrt(1-xi))/2 bb(I),sqrt(xi)/2 sigma_x+i sqrt(xi)/2 sigma_y }$],
+    [Phase damping], [${(1-sqrt(1-xi))/2 sigma_z+(1+sqrt(1-xi))/2 bb(I),
+    &sqrt(xi)/2 bb(I)- sqrt(xi)/2 sigma_z }$]
+  )]
+  , caption: [xxx]
+  )<tab:channels>
+]
+
 The Bloch vector of quantum potato chip, ${sqrt(3) (-1 + 2 q), sqrt(3)(-1 + p (2 - 4 q) + 2 q),sqrt(3) (-1 + 2 p)}$ will be transformed into a new one as show in the following equation, for bit flip, phase flip, bit-phase flip, depolarization, amplitude damping, and phase damping, respectively:
 $
 // mat("BitFlip";
@@ -457,6 +487,9 @@ mat(delim: #none,
   "PhaseFlip: " {sqrt(3) (-1 + 2 q) (1 - 2 xi), 
   sqrt(3) (-1 + 2 p) (-1 + 2 q) (-1 + 2 xi), 
   sqrt(3) (-1 + 2 p)};
+ "PhaseDamping: " 
+{(-1 + 2 q) sqrt(3 - 3 xi), -((-1 + 2 p) (-1 + 2 q) sqrt(3 - 3 xi)), 
+ sqrt(3) (-1 + 2 p)};
  "BitPhaseFlip: " {sqrt(3) (-1 + 2 q) (1 - 2 ), -sqrt(3) (-1 + 2 p) (-1 + 2 q), sqrt(3) (-1 + 2 p) (1 - 2 xi)};
  "Depolarization: "
  {-sqrt(3) (-1 + 2 q) (-1 + xi), 
@@ -464,31 +497,19 @@ mat(delim: #none,
  "AmplitudeDamping: "
 {(-1 + 2 q) sqrt(3 - 3 xi), -((-1 + 2 p) (-1 + 2 q) sqrt(
     3 - 3 xi)), -sqrt(3) - 
-  2 sqrt(3) p (-1 + xi) + xi + sqrt(3) xi};
- "PhaseDamping: " 
-{(-1 + 2 q) sqrt(3 - 3 xi), -((-1 + 2 p) (-1 + 2 q) sqrt(3 - 3 xi)), 
- sqrt(3) (-1 + 2 p)}
-) $
+  2 sqrt(3) p (-1 + xi) + xi + sqrt(3) xi}
+)
+$
 
-#[#set text(9.5pt)
-#show math.equation: set text(size: 8pt)
+Upon a close analysis, one can show that bit flip, phase flip and phase damping keep the states within the quantum potato chip, only inducing some shrinking (see @fig:channels-on-potato). On the other hand, other channels transform states such that they go outside of the quantum potato chip. For the bit flip case, the Bloch vector can be obtained by new variables $q',p'$ and @eq:kp-vector with ${p' = p + xi (1-2p), q' = q}$, for the phase flip it will be ${q' = q + xi (1-2q), p' = p}$, while for the phase damping it will be ${p' = p, 
+  q = 1/2 (1 - sqrt(1 - xi) + 2 q sqrt(1 - xi))}$.
+
+
 #figure(
-  align(center)[#table(
-    columns: 3,
-    align: (center,center,),
-    table.header([#strong[Channel name];], [#strong[List of Kraus operators];],[#strong[Channel's effect on Bloch sphere];]),
-    table.hline(),
-    [Bit flip], [${sqrt(xi) space sigma_x,sqrt(1-xi) space bb(I)}$],table.cell(rowspan: 6)[#image("images/channels.png",width:75%)],
-    [Phase flip], [${sqrt(xi) space sigma_z,sqrt(1-xi) space bb(I)}$],
-    [Bit-phase flip], [${sqrt(xi) space sigma_y,sqrt(1-xi) space bb(I)}$],
-    [Depolarization], [${sqrt(xi/4) space sigma_x,sqrt(xi/4) space sigma_y,sqrt(xi/4) space sigma_z,sqrt(1-(3xi)/4) space bb(I)}$],
-    [Amplitude damping], [${(1-sqrt(xi))/2 sigma_z+(1+sqrt(1-xi))/2 bb(I),sqrt(xi)/2 sigma_x+i sqrt(xi)/2 sigma_y }$],
-    [Phase damping], [${(1-sqrt(1-xi))/2 sigma_z+(1+sqrt(1-xi))/2 bb(I),&\
-    &sqrt(xi)/2 bb(I)- sqrt(xi)/2 sigma_z }$]
-  )]
-  , caption: [xxx]
-  )<tab:channels>
-])
+  image("images/channels-on-potato.png", width: 60%),
+  caption: [@code:channels-on-potato[channels effect on potato chip. We set error rate/probability as $xi=1/3$.]],
+) <fig:channels-on-potato>
+
 
 
 = Unconventional Liouvillian Evolution at the Boundary of Quantum Potato Chip
@@ -525,7 +546,7 @@ Accordingly, for the overall transition matrix one finds:
 $
 cal(L) = mat(delim: "(", frac(8 (p - 1) p ((p - 1) p + 1) + 1, 4 (p - 1) p (2 p - 1) (2 (p - 1) p + 1)), frac(1 - 2 p, 4 (p - 1) p (2 (p - 1) p + 1)), frac(1, 1 - 2 p), 0; frac(1 - 2 p, 4 (p - 1) p (2 (p - 1) p + 1)), frac(8 (p - 1) p ((p - 1) p + 1) + 1, 4 (p - 1) p (2 p - 1) (2 (p - 1) p + 1)), 0, frac(1, 1 - 2 p); frac(1, 1 - 2 p), 0, frac(8 (p - 1) p ((p - 1) p + 1) + 1, 4 (p - 1) p (2 p - 1) (2 (p - 1) p + 1)), frac(1 - 2 p, 4 (p - 1) p (2 (p - 1) p + 1)); 0, frac(1, 1 - 2 p), frac(1 - 2 p, 4 (p - 1) p (2 (p - 1) p + 1)), frac(8 (p - 1) p ((p - 1) p + 1) + 1, 4 (p - 1) p (2 p - 1) (2 (p - 1) p + 1)))
 $,
-<eq:Liovillian>, <Liovillian>
+<eq:Liovillian>, <code:Liovillian>
 )
 
 In the Hilbert space, the master equation corresponding to the above transition can be expressed as:
@@ -942,7 +963,68 @@ ArrayReshape[
    "Wootters"]["AmplitudesList"], {2, 2}]
 ```
 
-= @eq:Liovillian <Liovillian>
+
+= @fig:channels-on-potato <code:channels-on-potato>
+```
+\[Epsilon] = 1/3;
+potato = 
+  ParametricPlot3D[{Sqrt[3]  (-1 + 2  q), 
+    Sqrt[3]  (-1 + p  (2 - 4  q) + 2  q), Sqrt[3]  (-1 + 2  p)}, {q, 
+    0, 1}, {p, 1/6  (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
+    1/6  (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotPoints -> 120, 
+   PlotStyle -> Opacity[.5], Mesh -> None];
+bloch = QuantumState["UniformMixture"]["BlochPlot", 
+   "ShowLabels" -> False, "ShowAxes" -> False];
+GraphicsGrid[Partition[{
+   Show[bloch, potato,
+    ParametricPlot3D[{Sqrt[3]  (-1 + 2  q), 
+      Sqrt[3]  (-1 + 2  p)  (-1 + 2  q)  (-1 + 2  \[Epsilon]), 
+      Sqrt[3]  (-1 + 2  p)  (1 - 2  \[Epsilon])}, {q, 0, 1}, {p, 
+      1/6  (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
+      1/6  (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green,
+      PlotPoints -> 50], PlotLabel -> "BitFlip"],
+   Show[bloch, potato,
+    ParametricPlot3D[{Sqrt[3]  (-1 + 2  q)  (1 - 2  \[Epsilon]), 
+      Sqrt[3]  (-1 + 2  p)  (-1 + 2  q)  (-1 + 2  \[Epsilon]), 
+      Sqrt[3]  (-1 + 2  p)}, {q, 0, 1}, {p, 
+      1/6  (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
+      1/6  (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green,
+      PlotPoints -> 50], PlotLabel -> "PhaseFlip"],
+   Show[bloch, potato,
+    ParametricPlot3D[{(-1 + 2  q)  Sqrt[
+       3 - 3 \[Epsilon]], -((-1 + 2  p)  (-1 + 2  q)  Sqrt[
+         3 - 3 \[Epsilon]]), Sqrt[3]  (-1 + 2  p)}, {q, 0, 1}, {p, 
+      1/6  (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
+      1/6  (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green,
+      PlotPoints -> 50], PlotLabel -> "PhaseDamping"],
+   Show[bloch, potato,
+    ParametricPlot3D[{Sqrt[
+       3]  (-1 + 2  q)  (1 - 2  \[Epsilon]), -Sqrt[
+        3]  (-1 + 2  p)  (-1 + 2  q), 
+      Sqrt[3]  (-1 + 2  p)  (1 - 2  \[Epsilon])}, {q, 0, 1}, {p, 
+      1/6  (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
+      1/6  (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green,
+      PlotPoints -> 50], PlotLabel -> "BitPhaseFlip"],
+   Show[bloch, potato,
+    ParametricPlot3D[{-Sqrt[3]  (-1 + 2  q)  (-1 + \[Epsilon]), 
+      Sqrt[3]  (-1 + 2  p)  (-1 + 2  q)  (-1 + \[Epsilon]), -Sqrt[
+        3]  (-1 + 2  p)  (-1 + \[Epsilon])}, {q, 0, 1}, {p, 
+      1/6  (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
+      1/6  (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green,
+      PlotPoints -> 50], PlotLabel -> "Depolarizing"],
+   Show[bloch, potato,
+    ParametricPlot3D[{(-1 + 2  q)  Sqrt[
+       3 - 3 \[Epsilon]], -((-1 + 2  p)  (-1 + 2  q)  Sqrt[
+         3 - 3 \[Epsilon]]), -Sqrt[3] - 
+       2  Sqrt[3]  p  (-1 + \[Epsilon]) + \[Epsilon] + 
+       Sqrt[3]  \[Epsilon]}, {q, 0, 1}, {p, 
+      1/6  (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
+      1/6  (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green,
+      PlotPoints -> 50], PlotLabel -> "AmplitudeDamping"]
+   }, UpTo[3]], ImageSize -> Full, Spacings -> 0]
+```
+
+= @eq:Liovillian <code:Liovillian>
 ```WL
 P = {p, 1 - p};
 Q = {q, 1 - q} /. q -> 1/2 - Sqrt[-(((-1 + p) p)/(2 - 4 p + 4 p^2))];
