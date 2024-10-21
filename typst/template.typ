@@ -8,7 +8,7 @@
   body,
 ) = {
   // Set the document's basic properties.
-  set document(author: authors.map(a => a.name), title: title)
+  set document(title: title, author: authors.flatten().map(a => a.name))
   set page(
     margin: {
       (
@@ -87,37 +87,44 @@
 
   // Author information.
   pad(
-    top: 0.5em,
-    x: 2em,
+    top: 1em,
+    bottom: 1em,
+    x: 3em,
     grid(
-      columns: (1fr,) * calc.min(3, authors.len()),
-      gutter: 1em,
-      ..authors.map(author => align(center)[
-        #if author.keys().contains("orcid") {
-          link("http://orcid.org/" + author.orcid)[
-            #pad(bottom: -8pt,
+      rows: (3em,) * authors.len(),
+      gutter: 3em,
+      ..authors.map(row => 
+        grid(
+          columns: (1fr,) * row.len(),
+          ..row.map(author => align(center)[
+            #if author.keys().contains("orcid") {
+              link("http://orcid.org/" + author.orcid)[
+                #pad(bottom: -8pt,
+                  grid(
+                    columns: (8pt, auto, 8pt),
+                    rows: 10pt,
+                    [],
+                    [*#author.name*],
+                    [
+                      #pad(left: 4pt, top: -4pt, image("orcid.svg", width: 8pt))
+                    ]
+                  )
+                )
+              ]
+            } else {
               grid(
-                columns: (8pt, auto, 8pt),
-                rows: 10pt,
-                [],
+                columns: (auto),
+                rows: 2pt,
                 [*#author.name*],
-                [
-                  #pad(left: 4pt, top: -4pt, image("orcid.svg", width: 8pt))
-                ]
               )
-            )
+            }
+            #author.email \
+            #author.affiliation
           ]
-        } else {
-          grid(
-            columns: (auto),
-            rows: 2pt,
-            [*#author.name*],
-          )
-        }
-        #author.email \
-        #author.affiliation
-      ]),
-    ),
+        ),
+        )
+      )
+    )
   )
 
   align(center)[#date]
