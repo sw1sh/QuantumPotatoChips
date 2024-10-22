@@ -7,7 +7,7 @@
 #show: arxiv.with(
   title: "Quantum Potato Chips",
   authors: ((
-    (name: "Nikolay Murzin", email: "nikm@wolfram.com", affiliation: "Wolfram Institute, USA\nWolfram Research, USA"
+    (name: "Nikolay Murzin", email: "nikm@wolfram.com", affiliation: text([Wolfram Institute, USA#footnote[nmurzin\@wolframinstitute.org]\ Wolfram Research, USA])
     //, orcid: "0000-0000-0000-0000"
     ),
     (name: "Bruno Tenorio", email: "brunot@wolfram.com", affiliation: "Wolfram Research South America, Peru"),
@@ -17,7 +17,7 @@
   )),
 
   abstract: [We examine qubit states under symmetric informationally-complete measurements, representing state vectors as probability 4-vectors within a 3-simplex in $bb(R)^4$. Using geometric transformations, this 3-simplex is mapped to a tetrahedron in $bb(R)^3$. A specific surface within this tetrahedron allows for the separation of probability vectors into two disjoint 1-simplices.//, corresponding to the most classical quantum states. 
-  The intersection of this surface with the insphere identifies a "quantum potato chip" region, where probability 4-vectors reduce to two separable 2-vectors. States within this region can be fully reconstructed using only two projective measurements, a feature not found elsewhere in the state space.],
+  The intersection of this surface with the insphere identifies a "quantum potato chip" region, where probability 4-vectors reduce to two separable 2-vectors. States within this region can be fully reconstructed using only two given projective measurements, a feature not found elsewhere in the state space.],
   // keywords: ("First keyword", "Second keyword", "etc."),
   date: [#datetime.today().display()],
 )
@@ -71,13 +71,13 @@ A qubit in a normalized quantum state can be expressed in the basis ${bb(I), sig
 // ${{1 / 2, 0},{ 0, 0}}$,
 // ${{ 1 / 6, frac(i - √3, √2 (3 i + 3 √3))},{- frac(i √2, 3 i + 3 √3), 1 / 3}}$, ${{ 1 / 6, frac(i + √3, √2 (3 i - 3 √3))},{ frac(i √2, 3 (- i + √3)), 1 / 3}}$,
 // and ${{ 1 / 6, frac(1, 3 √2)},{ frac(1, 3 √2), 1/3}}$ and Bloch vectors of its projectors by $(0,0,1)$, $(-√2/3,-√(2/3),-1/3)$, $(-√2/3,√(2/3),-1/3)$, and $((2√2)/3,0,-1/3)$, respectively.]. 
-Historically, phase-space representations were connected with bases such as Wigner, Wootters or Gell-Mann @Wootters1986-cq@Feynman1987-vj@gell-mann where one needs _quasi_-probability treatment (i.e. $sum_i p_i = 1$ but $p_i$ can be negative). In this paper, we will focus on POVMs, though the quasi-probability case will also be discussed.
+That said, the phase-space representation has historically been associated with bases such as Wigner, Wootters, and Gell-Mann @Wootters1986-cq@Feynman1987-vj@gell-mann, which require a quasi-probability approach (i.e., $sum_i p_i = 1$ but some $p_i$ can be negative). In this paper, we focus primarily on POVMs, though we also address the quasi-probability case.
 
-For a qubit state in a SIC-POVM, the probability vector is confined within a simplex embedded in $bb(R)^4$ space. Through appropriate geometric transformations, this 4D object can be projected onto a tetrahedron in $bb(R)^3$ (see @fig:rotation). This paper answers two questions about this geometric object. From probability theory perspective, among all the points in the tetrahedron, which ones can be reduced to a disjoint pair of 1-simplices (two line segments), representing a separable probability distribution of uncorrelated variables? From the quantum theory perspective, which points within the tetrahedron correspond to _physical_ quantum states? With answers to these questions in hand, we will be able to find quantum states that correspond to two disjoint probability distributions. This is the core idea of quantum potato chips that we discuss in this paper.
+For a qubit state in a SIC-POVM, the probability vector is confined within a simplex embedded in $bb(R)^4$ space. Through appropriate geometric transformations, this 4D object can be linearly projected onto a tetrahedron in $bb(R)^3$ (see @fig:rotation). Two key questions arise. From probability theory perspective, among all the points in the tetrahedron, which ones can be reduced to a disjoint pair of 1-simplices (two line segments), representing a separable probability distribution of uncorrelated binary random variables? From the quantum theory perspective, which points within the tetrahedron correspond to _physical_ quantum states? With answers to these questions in hand, we will be able to find quantum states that correspond to two disjoint probability distributions. This is the core idea of quantum potato chips that we discuss in this paper.
 
 We will show that for states within the quantum potato chips, it is possible to reconstruct the entire state from only two independent projective measurements. Thus we refer to quantum potato chips as the informationally-minimal states, because their probability space can be reduced into two disjoint separable ones. This result embeds classical probability structures within quantum state representations, offering a novel intersection between classical and quantum probabilistic frameworks. An immediate consequence of the existence of these states is that any classical problem with two binary variables can be mapped into qubits. Future work will examine applications and foundational implications in more detail.
 
-*Note for the readers*: All visualizations and some formulas in this paper have corresponding Wolfram Mathematica code, which can be found at the end. These are accessible by double-clicking on captions, equations, or dagger marks next to figures/equations, if applicable.
+*Note for the readers*: All visualizations and some formulas in this paper have corresponding Wolfram Mathematica code, which can be found at the end. These are accessible by clicking on equations or figure captions, if applicable.
 
 #subpar.grid(
   figure(image("images/Rotate2D.png"), caption: [$"2D" arrow "1D"$]),
@@ -134,7 +134,7 @@ $, <eq:transformation>, <code:transformation>)
 @eq:transformation transforms a probability vector ${p_1, p_2, p_3, 1 - (p_1 + p_2 + p_3)}$ into ${1/2, -(1+2p_1)/6 + p_2, -(1+2p_1)/6 + p_3, 1/6 (5 - 8 p_1 - 6 p_2 - 6 p_3)}$. With the first element as a constant, one can drop it and reduce the dimension from 4D to 3D. 
 In a similar manner @eq:transformation transforms the original 3-simplex into a new one spanned by ${1/2, -1/2, -1/2, -1/2}$, ${1/2, 5/6, -1/6, -1/6}$, ${1/2, -1/6, 5/6, -1/6}$, and ${1/2, -1/6, -1/6, 5/6}$. With all first elements as $1/2$, the transformed simplex can be projected into $bb(R)^3$ space, as a tetrahedron spanned by ${-1/2, -1/2, -1/2}$, ${5/6, -1/6, -1/6}$, ${-1/6, 5/6, -1/6}$, and ${-1/6, -1/6, 5/6}$#footnote[Treated as Bloch vectors, normalizing their density matrices, this basis is equivalent to the Feynman basis (up-to rotation and reflection, see @fig:matreshka), which orientation is taken to be the default in this paper.]. We investigate what region of this simplex (i.e. tetrahedron) can be reduced to lower dimensional $1$-simplex, implying the original probability $4$-vector can be written as product of two disjoint probability vectors in lower dimensions.
 
-Take a $1$-simplex spanned by points ${1, 0}$ and ${0, 1}$ (@fig:1-simplex). Any point sampled from this simplex have the form ${ p , 1 - p }$ with $0 <= p <= 1$. Consider two points randomly sampled from this $1$-simplex: ${ p , 1 - p }$ and ${ q , 1 - q }$. Their Kronecker product after flattening will be given by:
+Take a $1$-simplex spanned by points ${1, 0}$ and ${0, 1}$ (@fig:1-simplex). Any point sampled from this simplex have the form ${ p , 1 - p }$ with $0 <= p <= 1$. Consider two points randomly sampled from this $1$-simplex: ${ p , 1 - p }$ and ${ q , 1 - q }$. Their outer product will be given by:
 
 #eqcode(
 $ { p q , p (1 - q) , q (1 - p) , (1 - p) (1 - q) }. $,<eq:kp-vector>,<code:kp-vector> )
@@ -373,34 +373,34 @@ $
 === SIC-POVM case
 A qubit state can be reconstructed from SIC-POVM probabilities, because they are informationally complete (IC)@renes2004symmetric @saraceno2017phase @fuchs2017sic @appleby2017introducing @scott2010symmetric @appleby2014symmetric. However, general qubit states cannot be recovered from only two independent projective measurements. We will show that for states within the quantum potato chips, it is possible to reconstruct the entire state from only two independent projective measurements. Thus we refer to quantum potato chips as the informationally-minimal states, because their probability space can be reduced into two disjoint separable ones.
 
-Given a QBism SIC-POVM such as @eq:povm, define three new POVM sets as follows:
-$cal(M)_1: {Q_1+Q_3,bb(I)-(Q_1+Q_3)}$,
-$cal(M)_2: {Q_1+Q_4,bb(I)-(Q_1+Q_4)}$, and 
-$cal(M)_3: {Q_1+Q_2,bb(I)-(Q_1+Q_2)}$. They correspond to measurements along these Bloch vectors:
+Given a SIC-POVM such as @eq:povm, define three new POVM sets as follows:
+$cal(M)_x: {Q_1+Q_3,bb(I)-(Q_1+Q_3)}$,
+$cal(M)_y: {Q_1+Q_4,bb(I)-(Q_1+Q_4)}$, and 
+$cal(M)_z: {Q_1+Q_2,bb(I)-(Q_1+Q_2)}$. They correspond to measurements along these Bloch vectors:
 $
-cal(M)_1:{
+cal(M)_x:{
   mat(1/√3; 0; 0), 
   mat(-1/√3; 0; 0;)
   }, space
-cal(M)_2:{
+cal(M)_y:{
   mat(0; 1/√3; 0), 
   mat(0; -1/√3; 0;)
   }, space
-cal(M)_3:{
+cal(M)_z:{
   mat(0; 0; 1/√3), 
   mat(0; 0; -1/√3;)
   },
 $<eq:3new-M>
 This feature is also visualized in @fig:new-measurements. One can see the vectors corresponding to $cal(M)_i$ are along the Cartesian axes (i.e. the same direction for Pauli matrices), but scaled by a factor of 1/√3.
 
-For a qubit state defined by the probability vector of @eq:kp-vector in the SIC-POVM basis of @eq:qbism, the measurement probabilities for $cal(M)_1$ is ${q,1-q}$ and for $cal(M)_3$ is ${p,1-p}$. Additionally, $cal(M)_1$, $cal(M)_2$ and $cal(M)_3$ can be treated as scaled versions of projective measurements of Pauli operators $sigma_x$, $sigma_y$ and $sigma_z$, respectively. For a generic state such as $1 / 2 (bb(I) + arrow(r) . arrow(sigma))$, the Pauli-Z probabilities are ${1/2(1-z),1/2(1+z)}$, while for $cal(M)_3$ the probabilities are ${1/6 (3 - √(3) z), 1/6 (3 + √(3) z)}$; likewise for Pauli-X, one gets ${1/2(1-x),1/2(1+x)}$ while those of $cal(M)_1$ are ${1/6 (3 - √(3) x), 1/6 (3 + √(3) x)}$. These results can be also found directly from the density matrix in the QBism SIC-POVM basis:
+For a qubit state defined by the probability vector of @eq:kp-vector in the SIC-POVM basis of @eq:qbism, the measurement probabilities for $cal(M)_x$ is ${q,1-q}$ and for $cal(M)_z$ is ${p,1-p}$. Additionally, $cal(M)_x$, $cal(M)_y$ and $cal(M)_z$ can be treated as scaled versions of projective measurements of Pauli operators $sigma_x$, $sigma_y$ and $sigma_z$, respectively. For a generic state such as $1 / 2 (bb(I) + arrow(r) . arrow(sigma))$, the Pauli-Z probabilities are ${1/2(1-z),1/2(1+z)}$, while for $cal(M)_z$ the probabilities are ${1/6 (3 - √(3) z), 1/6 (3 + √(3) z)}$; likewise for Pauli-X, one gets ${1/2(1-x),1/2(1+x)}$ while those of $cal(M)_x$ are ${1/6 (3 - √(3) x), 1/6 (3 + √(3) x)}$. These results can be also found directly from the density matrix in the QBism SIC-POVM basis:
 $ 1/(4 sqrt(3)) mat(
 (sqrt(3) + x - y + z), 
 (sqrt(3) - x + y + z);
  (sqrt(3) + x + y - z), 
  (sqrt(3) - x - y - z)).
 $<eq:sic-density>
-Adding up columns in @eq:sic-density return $cal(M)_1$ probabilities, while for rows summation, one gets $cal(M)_3$ probabilities.
+Adding up columns in @eq:sic-density return $cal(M)_x$ probabilities, while for rows summation, one gets $cal(M)_z$ probabilities.
 Given any projective measurement for Pauli matrices, if its probability is denoted by $P(sigma_i)=p$, the corresponding $cal(M)_i$ probability will be given by 
 $P(cal(M)_i) = 1/√(3)(p-1/2)+1/2$. This
 scaling can also be expressed with the following doubly-stochastic matrix#footnote[https://mathworld.wolfram.com/DoublyStochasticMatrix.html]:
@@ -419,7 +419,7 @@ $<eq:stoch-shrink>
 
 Therefore, for any state within the quantum potato chips, one can perform Pauli-X and Pauli-Z projective measurements and record corresponding probabilities. By transforming these probabilities using @eq:stoch-shrink, one recovers $p$ and $q$, reconstructing the probability vector in @eq:kp-vector and fully reconstructing the quantum state. One should notice that this process is doable for states only in the quantum potato chip and not for general states.
 
-Consider one specific example. Given the state vector from @eq:kp-vector with parameters $p = 1/3$ and $q = 2/5$, the QBism SIC-POVM probabilities are ${2/15, 1/5, 4/15, 2/5}$. For measurements $cal(M)_3$ and $cal(M)_1$, the probabilities are ${1/6(3-sqrt(3)),1/6(3+sqrt(3))}$ and ${1/10 (5-sqrt(3)), 1/10 (5+sqrt(3))}$, respectively. For Pauli-Z and Pauli-X projective measurements, or after applying the transformation from @eq:stoch-shrink, the probabilities are ${1/3,2/3}$ and ${2/5,3/5}$, respectively. Their Kronecker product also yields ${2/15, 1/5, 4/15, 2/5}$.
+Consider one specific example. Given the state vector from @eq:kp-vector with parameters $p = 1/3$ and $q = 2/5$, the QBism SIC-POVM probabilities are ${2/15, 1/5, 4/15, 2/5}$. For measurements $cal(M)_z$ and $cal(M)_x$, the probabilities are ${1/6(3-sqrt(3)),1/6(3+sqrt(3))}$ and ${1/10 (5-sqrt(3)), 1/10 (5+sqrt(3))}$, respectively. For Pauli-Z and Pauli-X projective measurements, or after applying the transformation from @eq:stoch-shrink, the probabilities are ${1/3,2/3}$ and ${2/5,3/5}$, respectively. Their outer product also yields ${2/15, 1/5, 4/15, 2/5}$.
 
 This factorization allows us to decouple the probability 4-vector in a 3-simplex into two lower-dimensional disjoint distributions in 1-simplices. Consequently, the probability space for a state in the quantum potato chip can be viewed as the product of two independent subspaces, each governed by their respective probability distributions. 
 //This construction reflects the disjoint nature of the probability distributions for quantum potato chip, and highlights the independence between the two subspaces. 
@@ -433,7 +433,7 @@ In practical terms, the system exhibits a decoupling of correlations between the
 == Quasi-Probability Bases
 //quasi and relation to experiment?
 
-Historically, the phase-space representation of quantum states, such those in bases of Wootters @Wootters1986-cq and Feynman @Feynman1987-vj, involves quasi-probability distributions. These representations allow for the treatment of quantum states in a manner similar to classical statistical distributions, but with key distinctions, such as the possibility of negative values. For example, Wootters basis is given by:
+Historically, the phase-space representation of quantum states, such those in bases of Wootters @Wootters1986-cq and Feynman @Feynman1987-vj #footnote[For qubits Feynman and Wootters bases are the same and we refer to both  interchangeably.], involves quasi-probability distributions. These representations allow for the treatment of quantum states in a manner similar to classical statistical distributions, but with key distinctions, such as the possibility of negative values. For example, Wootters basis is given by:
 
 #eqcode($
 cal(W)={
@@ -620,15 +620,27 @@ $
 L_1 = 1/sqrt(1-2p)(bb(I)+sigma_z),
 space space
 L_2 = 1/2sqrt((1-2p)/(p(1-p)(1-2p(1-p)))) space sigma_x.
-$
-However, here we have unconventional (negative) opposite damping rates $gamma_1=-gamma_2=1$.
+$ <eq:Lindblads>
+However, here we have unconventional (negative) opposite damping rates $gamma_1=-gamma_2=1$. Additionally, because of the singularity at $p=1/2$ in @eq:Lindblads, damping rates should swap signs to close the trajectory:
 
-While this specific evolution may lack an immediate physical interpretation, it is significant that, starting from any point on the boundary of the quantum chip, this evolution guarantees that the quantum state remains confined to the boundary for the entire duration of the process.
+$
+gamma_1=-gamma_2=cases(&1 "if" 0 < p <= 1/2, - &1 "if" 1/2<p<1)
+$
+
+#figure(
+  image("images/evolution.png", width: 30%),
+  caption: [@code:evolution[Two solutions from @eq:constraint-Wootters define opposite shifts to the initial state $ket(-) plus.minus delta p$, evolving in opposite directions.]]
+) <fig:evolution>
+
+
+While this specific evolution may lack an immediate physical interpretation, it is significant that, starting from any point on the boundary of the quantum chip, there is a non-conventional dynamical equation, guaranteeing that the quantum state remains pure physical state confined to it.
 
 = Concluding remarks
 // SIC-POVMs provide a natural way of describing quantum objects in the phase space. In this regard, a qubit state can be described by a probability $4$-vector in a $3$-simplex space. With proper geometric transformation, $3$-simplex can be projected into a tetrahedron in $bb(R)^3$. Quantum states are inside the insphere of the tetrahedron, meaning not all points within the tetrahedron corresponds a quantum state. Independently, a particular surface within the tetrahedron can be constructed by product of two independent $1$-simplex as probability space, providing the most minimal (say classical) description of quantum states. The part of aforementioned surface within the insphere forms a region we call as a quantum potato chip, which is the only part of the tetrahedron probability space that can be reduced to lower-dimensional probability space. This unique feature might provide advantage for these states as potential source for any computation. Of course, an important open question would be how any [universal] quantum computation can be reduced to only probabilistic rules, in a classical way, if possible and what new features should be incorporated into this machinary, to reproduce quantum results. This is a topics of our future research.
 
-SIC-POVMs offer an elegant framework for representing qubit states geometrically, using a 4-dimensional probability vector within a 3-simplex. Through geometric transformations, this simplex can be projected into a tetrahedron in $bb(R)^3$. Crucially, not all points in this tetrahedron represent valid quantum states, with quantum states residing within the insphere of the tetrahedron. A specific surface within this space, defined by the product of two 1-simplices, represents quantum states with the most informationally-minimal description. The region where this surface intersects the insphere forms the "quantum potato chip," a subset of quantum states of the qubit that can be reduced to a lower-dimensional (classical) probability space. This reduction suggests potential computational advantages for these states. This suggests an important question: can universal quantum computation be fully described using purely probabilistic (classical) rules? Exploring this question and possible modifications to quantum formalism will be explored in future work. The geometric structure of SIC-POVMs suggests that understanding these spaces could unlock new pathways in quantum computing and quantum state representation.
+SIC-POVMs offer an elegant framework for representing qubit states geometrically, using a 4-dimensional probability vector within a 3-simplex. Through geometric transformations, this simplex can be projected into a regular tetrahedron in $bb(R)^3$. Crucially, not all points in this tetrahedron represent valid qubits, with physical quantum states residing within the insphere of the tetrahedron. A specific surface within this space, defined by the product of two 1-simplices, representing uncorrelated pair of binary variables, intersects the insphere forming the "quantum potato chip," a subset of quantum states of the qubit with uncorrelated projective observables.
+
+This suggests an important question: can universal quantum computation still be achieved after restricting qubits to such states? Exploring this question and possible modifications to quantum formalism will be explored in future work. The geometric structure of SIC-POVMs suggests that understanding these spaces could unlock new pathways in quantum computing and quantum state representation.
 
 a model on binary variables; binary variables are mapped into potato chips
 
@@ -1198,6 +1210,46 @@ Q = {q, 1 - q} /. q -> 1/2 - Sqrt[-(((-1 + p) p)/(2 - 4 p + 4 p^2))];
  MatrixLog[
     KroneckerProduct[MatrixExp[ℒ1], 
      MatrixExp[ℒ2]]] // ComplexExpand // FullSimplify
+```
+
+= @fig:evolution <code:evolution>
+```WL
+proba = Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]];
+state = QuantumWeylTransform[
+   QuantumState[proba, "Wootters", "Parameters" -> {p, q}]];
+sol = Solve[Simplify[Norm[state["BlochVector"]] == 1], q, Reals] // 
+    Simplify // Normal;
+    
+L1 = QuantumOperator[{{2/Sqrt[1 - 2 p], 0}, { 0 , 0}}];
+L2 = QuantumOperator[{{0, Sqrt[-1 + 2 p]/(
+     2 Sqrt[(-1 + p) p (1 + 2 (-1 + p) p)])}, { Sqrt[-1 + 2 p]/(
+     2 Sqrt[(-1 + p) p (1 + 2 (-1 + p) p)]), 0}}];
+\[Gamma] = (-1)^{Boole[p > 1/2], Boole[p <= 1/2]};
+
+p0 = 0.0001;
+p1 = 1;
+init1 = state[<|p -> p, sol[[1]]|> /. p -> p0];
+init2 = state[<|p -> p, sol[[2]]|> /. p -> p0];
+final1 = 
+  Quiet@QuantumEvolve[
+    QuantumOperator["Hamiltonian"[{L1, L2}, \[Gamma]]], 
+    init1, {p, p0, p1}];
+final2 = 
+  Quiet@QuantumEvolve[
+    QuantumOperator["Hamiltonian"[{L1, L2}, \[Gamma]]], 
+    init2, {p, p0, p1}];
+Show[QuantumState["-"]["BlochPlot", "ShowAxes" -> False, 
+  "ShowArrow" -> False],
+ Graphics3D[{Red, Thick, Arrow[{{0, 0, 0}, init1["BlochVector"]}], 
+   Blue, Arrow[{{0, 0, 0}, init2["BlochVector"]}]}],
+ ParametricPlot3D[
+  Evaluate[{final1["BlochVector"], final2["BlochVector"]}], {p, p0, 
+   p1}, PlotStyle -> {Directive[Thickness[.01], Red], 
+    Directive[Thickness[.01], Blue]}], 
+ ParametricPlot3D[{-1 + 2 p, (-1 + 2 p) (-1 + 2 q), -1 + 2 q}, {p, 0, 
+   1}, {q, 1/2 - Sqrt[-(((-1 + p) p)/(2 - 4 p + 4 p^2))], 
+   1/2 + Sqrt[-(((-1 + p) p)/(2 - 4 p + 4 p^2))]}, Mesh -> None, 
+  PlotStyle -> Yellow]]
 ```
 
 //bloch vector for chip
