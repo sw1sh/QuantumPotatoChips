@@ -261,10 +261,10 @@ For a probability vector $arrow(p)={p_1,p_2,p_3,1-(p_1+p_2+p_3)}$ in the basis o
   $
 arrow(rho) =& cal(B).arrow(p) = 
 mat(
-     -√3(p_1+p_2)+(1-√3)/2; 
+     -√3(p_1+p_2)+(1+√3)/2; 
      sqrt(3/2)e^(i (3pi)/4)((1+i)p_1+(1-i)p_2+2p_3-1);
-    sqrt(3/2)e^(i pi/4)((1-i)p_1+(1+i)p_2+2p_3-1); 
-    -√3(p_1+p_2)+(√3+1)/2;
+    sqrt(3/2)e^(-i (3pi)/4)((1-i)p_1+(1+i)p_2+2p_3-1); 
+    √3(p_1+p_2)+(1-√3)/2;
   ),
 $<eq:density-phase-space>
 
@@ -480,7 +480,10 @@ Wootters phase-space basis is no longer a proper probability distribution, and i
 )
 
 Allowing quasi probabilities has some geometric consequences. If one considers only positive (say, classical) probabilities, the corresponding tetrahedron does not completely contain the Bloch sphere (see @fig:3-MM). In other words, parts of Bloch sphere outside of the tetrahedron correspond to states with negative probabilities in this basis. Additionally, the parametrization of the quantum potato chip will be different compared to @eq:constraint: 
-$ q=1/2(1 plus.minus √(((1-p)p) / (2(1 - 2p + 2p^2)))). $<eq:constraint-Wootters>
+#eqcode(
+$ q=1/2 plus.minus √((p(1-p)) / (2(1 - 2p + 2p^2))). $,<eq:constraint-Wootters>,
+<code:constraint-Wootters>
+)
 
 A similar factorization argument for the probability vectors of the quantum potato chip can be applied in this context. However, it is crucial to note that, unlike the SIC-POVM case, the probabilities here do not necessarily correspond to directly measurable quantities, as they may take on negative values. 
 
@@ -789,7 +792,20 @@ boundary = Normal[Solve[Norm[2 Sqrt[3] surface] == 1, q, Reals]]
 products = Permute[product, #] & /@ {{1, 4, 2, 3}, {3, 1, 2, 4}};
 surfaces = ComplexExpand[Rest[rotation . #] & /@ products]
 ```
-
+= @eq:prob_vector & @eq:matthews <code:matthews>
+```WL
+Phi[dist_CategoricalDistribution] := 
+ Phi[Information[dist, "ProbabilityArray"]]
+Phi[p_?MatrixQ] /; Dimensions[p] == {2, 2} := \!\(TraditionalForm\`
+\*FractionBox[\(p[[2, 2]]\ p[[1, 1]] - p[[1, 2]]\ p[[2, 1]]\), 
+SqrtBox[\(\((p[[1, 1]] + p[[1, 2]])\)\ \((p[[2, 1]] + 
+        p[[2, 2]])\)\ \((p[[1, 1]] + p[[2, 1]])\)\ \((p[[1, 2]] + 
+        p[[2, 2]])\)\)]]\)
+FullSimplify@
+ Phi@ArrayReshape[
+   QuantumPhaseSpaceTransform[QuantumState["BlochVector"[{x, y, z}]], 
+     basis]["AmplitudesList"], {2, 2}]
+```
 = @fig:1-simplex <code:1-simplex> 
 ```WL
 Graphics[{
@@ -1113,6 +1129,13 @@ ArrayReshape[
    "Wootters"]["AmplitudesList"], {2, 2}]
 ```
 
+= @eq:constraint-Wootters <code:constraint-Wootters>
+```WL
+Solve[Simplify[
+   Norm[QuantumWeylTransform[
+       QuantumState[Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]],
+         "Wootters"]]["BlochVector"]] == 1], q, Reals] // FullSimplify
+```
 
 = @tab:channels <code:channels>
 ```WL
