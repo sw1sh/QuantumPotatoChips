@@ -373,7 +373,7 @@ $
 === SIC-POVM case
 A qubit state can be reconstructed from SIC-POVM probabilities, because they are informationally complete (IC)@renes2004symmetric @saraceno2017phase @fuchs2017sic @appleby2017introducing @scott2010symmetric @appleby2014symmetric. However, general qubit states cannot be recovered from only two independent projective measurements. We will show that for states within the quantum potato chips, it is possible to reconstruct the entire state from only two independent projective measurements. Thus we refer to quantum potato chips as the informationally-minimal states, because their probability space can be reduced into two disjoint separable ones.
 
-Given a SIC-POVM such as @eq:povm, define three new POVM sets as follows:
+Given a SIC-POVM such as @eq:povm, define three new POVM sets as follows: 
 $cal(M)_x: {Q_1+Q_3,bb(I)-(Q_1+Q_3)}$,
 $cal(M)_y: {Q_1+Q_4,bb(I)-(Q_1+Q_4)}$, and 
 $cal(M)_z: {Q_1+Q_2,bb(I)-(Q_1+Q_2)}$. They correspond to measurements along these Bloch vectors:
@@ -395,12 +395,12 @@ This feature is also visualized in @fig:new-measurements. One can see the vector
 
 For a qubit state defined by the probability vector of @eq:kp-vector in the SIC-POVM basis of @eq:qbism, the measurement probabilities for $cal(M)_x$ is ${q,1-q}$ and for $cal(M)_z$ is ${p,1-p}$. Additionally, $cal(M)_x$, $cal(M)_y$ and $cal(M)_z$ can be treated as scaled versions of projective measurements of Pauli operators $sigma_x$, $sigma_y$ and $sigma_z$, respectively. For a generic state such as $1 / 2 (bb(I) + arrow(r) . arrow(sigma))$, the Pauli-Z probabilities are ${1/2(1-z),1/2(1+z)}$, while for $cal(M)_z$ the probabilities are ${1/6 (3 - √(3) z), 1/6 (3 + √(3) z)}$; likewise for Pauli-X, one gets ${1/2(1-x),1/2(1+x)}$ while those of $cal(M)_x$ are ${1/6 (3 - √(3) x), 1/6 (3 + √(3) x)}$. These results can be also found directly from the density matrix in the QBism SIC-POVM basis:
 $ 1/(4 sqrt(3)) mat(
-(sqrt(3) + x - y + z), 
-(sqrt(3) - x + y + z);
- (sqrt(3) + x + y - z), 
- (sqrt(3) - x - y - z)).
+(sqrt(3) - x + y - z), 
+(sqrt(3) + x - y - z);
+ (sqrt(3) - x - y + z), 
+ (sqrt(3) + x + y + z)).
 $<eq:sic-density>
-Adding up columns in @eq:sic-density return $cal(M)_x$ probabilities, while for rows summation, one gets $cal(M)_z$ probabilities.
+Adding up columns in @eq:sic-density return $cal(M)_z$ probabilities, while for rows summation, one gets $cal(M)_x$ probabilities.
 Given any projective measurement for Pauli matrices, if its probability is denoted by $P(sigma_i)=p$, the corresponding $cal(M)_i$ probability will be given by 
 $P(cal(M)_i) = 1/√(3)(p-1/2)+1/2$. This
 scaling can also be expressed with the following doubly-stochastic matrix#footnote[https://mathworld.wolfram.com/DoublyStochasticMatrix.html]:
@@ -417,9 +417,9 @@ p -> cal(S)p.
 $<eq:stoch-shrink>
 
 
-Therefore, for any state within the quantum potato chips, one can perform Pauli-X and Pauli-Z projective measurements and record corresponding probabilities. By transforming these probabilities using @eq:stoch-shrink, one recovers $p$ and $q$, reconstructing the probability vector in @eq:kp-vector and fully reconstructing the quantum state. One should notice that this process is doable for states only in the quantum potato chip and not for general states.
+Therefore, for any state within the quantum potato chips, one can perform Pauli-X and Pauli-Z #footnote[Alternatively Pauli-X and Pauli-Y or Pauli-Y and Pauli-Z for a differently oriented potato chip.] projective measurements and record corresponding probabilities. By transforming these probabilities using @eq:stoch-shrink, one recovers $p$ and $q$, reconstructing the probability vector in @eq:kp-vector and fully reconstructing the quantum state. One should notice that this process is doable for states only in the quantum potato chip and not for general states.
 
-Consider one specific example. Given the state vector from @eq:kp-vector with parameters $p = 1/3$ and $q = 2/5$, the QBism SIC-POVM probabilities are ${2/15, 1/5, 4/15, 2/5}$. For measurements $cal(M)_z$ and $cal(M)_x$, the probabilities are ${1/6(3-sqrt(3)),1/6(3+sqrt(3))}$ and ${1/10 (5-sqrt(3)), 1/10 (5+sqrt(3))}$, respectively. For Pauli-Z and Pauli-X projective measurements, or after applying the transformation from @eq:stoch-shrink, the probabilities are ${1/3,2/3}$ and ${2/5,3/5}$, respectively. Their outer product also yields ${2/15, 1/5, 4/15, 2/5}$.
+Consider one specific example. Given the state vector from @eq:kp-vector with parameters $p = 1/3$ and $q = 2/5$, the QBism SIC-POVM probabilities are ${2/15, 1/5, 4/15, 2/5}$. For Pauli-Z and Pauli-X projective measurements, the probabilities are ${1/6(3-sqrt(3)),1/6(3+sqrt(3))}$ and ${1/10 (5-sqrt(3)), 1/10 (5+sqrt(3))}$, respectively. For measurements $cal(M)_z$ and $cal(M)_x$, or after applying the transformation from @eq:stoch-shrink, the probabilities are ${1/3,2/3}$ and ${2/5,3/5}$, respectively. Their outer product also yields ${2/15, 1/5, 4/15, 2/5}$.
 
 This factorization allows us to decouple the probability 4-vector in a 3-simplex into two lower-dimensional disjoint distributions in 1-simplices. Consequently, the probability space for a state in the quantum potato chip can be viewed as the product of two independent subspaces, each governed by their respective probability distributions. 
 //This construction reflects the disjoint nature of the probability distributions for quantum potato chip, and highlights the independence between the two subspaces. 
@@ -805,6 +805,27 @@ FullSimplify@
  Phi@ArrayReshape[
    QuantumPhaseSpaceTransform[QuantumState["BlochVector"[{x, y, z}]], 
      basis]["AmplitudesList"], {2, 2}]
+```
+
+= @eq:3new-M & @eq:sic-density <code:sic-density>
+```WL
+basis = With[{basis = QuantumBasis["QBismSIC"]}, 
+  QuantumBasis[basis["Names"], 
+   Threaded[IdentityMatrix[2]] - basis["Elements"] /. 
+    x_?NumericQ :> (#1 + #2 I & @@ RootApproximant[ReIm[x]])]];
+povm = QuantumMeasurementOperator[
+  Inverse[Outer[Tr@*Dot, #, #, 1]] . # &@basis["Elements"]];
+ops = With[{povm = povm["POVMElements"]}, 
+   With[{op = povm[[#1]] + povm[[#2]]},
+      Simplify@{Normal[op], IdentityMatrix[2] - op}] & @@@ {{1, 
+      2}, {1, 3}, {1, 4}}];
+Map[(QuantumState[#]["BlochVector"] // Simplify) &, ops, {2}]
+densityQBISMSIC = 
+ ArrayReshape[
+  With[{povms = povm["POVMElements"], 
+    s = QuantumState["BlochVector"[{x, y, z}]][
+      "DensityMatrix"]}, (Tr[# . s] // FullSimplify) & /@ povms], {2, 
+   2}]
 ```
 = @fig:1-simplex <code:1-simplex> 
 ```WL
