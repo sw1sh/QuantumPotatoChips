@@ -154,7 +154,7 @@ $, <eq:chip1>, <code:chip1>
 )
 
 @eq:chip1 corresponds to a three-dimensional surface parameterized by
-variables $0 lt.eq p lt.eq 1$ and $0 lt.eq q lt.eq 1$. This surface is fully contained within the tetrahedron of probability space, as shown @fig:surface. Not all of the points within the tetrahedron correspond to _physical_ quantum states (i.e. states with a positive semi-definite density matrix). The only region of this tetrahedron that corresponds to physical quantum state is the sphere that is inscribed within it#footnote[The insphere, centered at the origin ${0,0,0}$, has a radius $1/(sqrt(3))$. This radius is not unity because, for instance, a normalized vector such as ${1,0,0,0}$ transforms into the vector ${1/2, -1/2, -1/2, -1/2}$, which, after dropping the first component, becomes ${-1/2, -1/2, -1/2}$. To maintain normalization, this vector must be rescaled by a factor of $2sqrt(3)$. After rescaling, the resulting sphere has radius 1, analogous to the Bloch sphere.]. 
+variables $0 lt.eq p lt.eq 1$ and $0 lt.eq q lt.eq 1$. This surface is fully contained within the tetrahedron of probability space, as shown @fig:surface. Not all of the points within the tetrahedron correspond to _physical_ quantum states (i.e. states with a positive semi-definite density matrix). The only region of this tetrahedron that corresponds to physical quantum state is the sphere that is inscribed within it#footnote[The insphere, centered at the origin ${0,0,0}$, has a radius $1/(2sqrt(3))$. This radius is not unity because, for instance, a normalized vector such as ${1,0,0,0}$ transforms into the vector ${1/2, -1/2, -1/2, -1/2}$, which, after dropping the first component, becomes ${-1/2, -1/2, -1/2}$. To maintain normalization, this vector must be rescaled by a factor of $sqrt(3)/2$. After rescaling, the resulting sphere has radius 1, analogous to the Bloch sphere.]. 
 
 
 
@@ -335,8 +335,8 @@ As shown in @fig:chip-in-bloch, @eq:bloch-chip-border parametrizes the boundary 
   label:<fig:3-M>,
 )
 
-= Quantum Potato Chip as the Informationally-Minimal States
-We investigate the properties of quantum states within the "quantum potato chip", which we argue are the most informationally-minimal among quantum states represented in the Bloch sphere. To support this claim, we present two complementary arguments. First, we demonstrate that the Matthews correlation measure vanishes exclusively for the quantum potato chip states. Second, we show that states lying on the quantum potato chip can be generated solely through projective measurements in the Pauli-X and Pauli-Z bases, further reinforcing their status as informationally-minimal quantum states.
+= Quantum Potato Chip as Self-Correlation-Free States
+We investigate the properties of quantum states within the "quantum potato chip", which are free of correlation between its complete projective measurements. First, we demonstrate that the Matthews correlation measure vanishes exclusively for the quantum potato chip states. Second, we show that states lying on the quantum potato chip can be reconstructed solely through projective measurements (for example measurements in the Pauli-X and Pauli-Z bases).
 
 == Matthews correlation of classical binary variables
 To quantify the correlation of classical binary variables within the quantum potato chip compared to other points in the Bloch sphere, one can use the Matthews correlation coefficient. Given binary variables defining the probability vector as:
@@ -580,7 +580,7 @@ On the other hand, other channels map states such that they go outside of the qu
 
 A natural physics question arises: can the boundary of the quantum potato chip be understood as the result of state evolution under a master equation, starting from an appropriate initial condition?
 
-Given that the trajectory of each individual probability vector $P = {p, 1-p}$ and $Q = {q, 1-q}$ is already known and constrained by @eq:constraint, the parameter $p$ can be interpreted as a time variable in a parametric equation for the whole system. We can identify two time (or parameter)-dependent transition matrices that generate the desired trajectory.
+Given that the trajectory of each individual probability vector $P = {p, 1-p}$ and $Q = {q, 1-q}$ is already known and constrained by @eq:constraint-Wootters, the parameter $p$ can be interpreted as a time variable in a parametric equation for the whole system. We can identify two time (or parameter)-dependent transition matrices that generate the desired trajectory.
 
 $
 P'(p) = cal(L)_1(p) P(p),
@@ -1183,63 +1183,35 @@ GraphicsGrid[
 = @tab:channels-on-potato <code:channels-on-potato>
 ```WL
 \[Xi] = 1/3;
-potato = 
-  ParametricPlot3D[{Sqrt[3] (-1 + 2 q), 
-    Sqrt[3] (-1 + p (2 - 4 q) + 2 q), Sqrt[3] (-1 + 2 p)}, {q, 0, 
-    1}, {p, 1/6 (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
-    1/6 (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotPoints -> 120, 
-   PlotStyle -> Opacity[.75], Mesh -> None, 
+state = QuantumWeylTransform[
+   QuantumState[Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]], 
+    basis, "Parameters" -> {p, q}]];
+sol = Normal@Solve[state["Eigenvalues"][[1]] == 0, q, Reals];
+prange = Splice[(Flatten[sol // Values] /. p -> q)];
+blochpotato = 
+  Simplify@
+   QuantumWeylTransform[
+     QuantumState[Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]], 
+      basis]]["BlochVector"];
+potato = ParametricPlot3D[blochpotato,
+   {q, 0, 1}, {p, prange},
+   PlotPoints -> 120, PlotStyle -> Opacity[.75], Mesh -> None, 
    PlotRange -> {{-1, 1}, {-1, 1}, {-1, 1}}, Axes -> False, 
    Boxed -> False];
 bloch = QuantumState["UniformMixture"]["BlochPlot", 
    "ShowLabels" -> False, "ShowAxes" -> False];
 opts = {PlotRange -> {{-1, 1}, {-1, 1}, {-1, 1}}, Boxed -> False, 
    Axes -> False, ImagePadding -> -40};
-GraphicsGrid[
- Partition[{Show[
-    ParametricPlot3D[{Sqrt[3] (-1 + 2 q), 
-      Sqrt[3] (-1 + 2 p) (-1 + 2 q) (-1 + 2 \[Xi]), 
-      Sqrt[3] (-1 + 2 p) (1 - 2 \[Xi])}, {q, 0, 1}, {p, 
-      1/6 (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
-      1/6 (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green, 
-     PlotPoints -> 50], potato, bloch, PlotLabel -> "BitFlip", opts], 
-   Show[ParametricPlot3D[{Sqrt[3] (-1 + 2 q) (1 - 2 \[Xi]), 
-      Sqrt[3] (-1 + 2 p) (-1 + 2 q) (-1 + 2 \[Xi]), 
-      Sqrt[3] (-1 + 2 p)}, {q, 0, 1}, {p, 
-      1/6 (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
-      1/6 (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green, 
-     PlotPoints -> 50], potato, bloch, PlotLabel -> "PhaseFlip", 
-    opts], Show[
-    ParametricPlot3D[{(-1 + 2 q) Sqrt[
-        3 - 3 \[Xi]], -((-1 + 2 p) (-1 + 2 q) Sqrt[3 - 3 \[Xi]]), 
-      Sqrt[3] (-1 + 2 p)}, {q, 0, 1}, {p, 
-      1/6 (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
-      1/6 (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green, 
-     PlotPoints -> 50], potato, bloch, PlotLabel -> "PhaseDamping", 
-    opts], Show[
-    ParametricPlot3D[{Sqrt[
-        3] (-1 + 2 q) (1 - 2 \[Xi]), -Sqrt[3] (-1 + 2 p) (-1 + 2 q), 
-      Sqrt[3] (-1 + 2 p) (1 - 2 \[Xi])}, {q, 0, 1}, {p, 
-      1/6 (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
-      1/6 (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green, 
-     PlotPoints -> 50], potato, bloch, PlotLabel -> "BitPhaseFlip", 
-    opts], Show[
-    ParametricPlot3D[{-Sqrt[3] (-1 + 2 q) (-1 + \[Xi]), 
-      Sqrt[3] (-1 + 2 p) (-1 + 2 q) (-1 + \[Xi]), -Sqrt[3] (-1 + 
-         2 p) (-1 + \[Xi])}, {q, 0, 1}, {p, 
-      1/6 (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
-      1/6 (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green, 
-     PlotPoints -> 50], potato, bloch, PlotLabel -> "Depolarizing", 
-    opts], Show[
-    ParametricPlot3D[{(-1 + 2 q) Sqrt[
-        3 - 3 \[Xi]], -((-1 + 2 p) (-1 + 2 q) Sqrt[
-          3 - 3 \[Xi]]), -Sqrt[3] - 2 Sqrt[3] p (-1 + \[Xi]) + \[Xi] +
-        Sqrt[3] \[Xi]}, {q, 0, 1}, {p, 
-      1/6 (3 - Sqrt[-9 + 6/(1 + 2 (-1 + q) q)]), 
-      1/6 (3 + Sqrt[-9 + 6/(1 + 2 (-1 + q) q)])}, PlotStyle -> Green, 
-     PlotPoints -> 50], potato, bloch, 
-    PlotLabel -> "AmplitudeDamping", opts]}, UpTo[3]], 
- Spacings -> -40]
+GraphicsGrid[Partition[(Show[ParametricPlot3D[
+       Evaluate@
+        FullSimplify[(QuantumChannel[#[\[Xi]]]@
+            QuantumState["BlochVector"[blochpotato]])["BlochVector"], 
+         0 < \[Xi] < 1],
+       {q, 0, 1}, {p, prange},
+       PlotStyle -> Green, PlotPoints -> 50], potato, bloch, 
+      PlotLabel -> #, opts])
+    & /@ {"BitFlip", "PhaseFlip", "PhaseDamping", "BitPhaseFlip", 
+    "Depolarizing", "AmplitudeDamping"}, UpTo[3]],Spacings -> -40]
 ```
 
 = @eq:Liovillian <code:Liovillian>
