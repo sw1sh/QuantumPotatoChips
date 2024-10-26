@@ -1,6 +1,6 @@
 #import "template.typ": arxiv
 
-#import "@preview/physica:0.9.3": ket
+#import "@preview/physica:0.9.3": ket, expval, hbar
 #import "@preview/subpar:0.1.1"
 
 
@@ -304,7 +304,7 @@ The previous geometric description of potato chips can be applied directly into 
 //#float[
 $
 arrow(r)=
-{-√(2/(1+2p(p-1))-3), (minus.plus 1 plus.minus 2 p) √(2/(1+2p(p-1))-3), (2p-1)√3}. 
+{-√(2/(1+2p(p-1))-3), (minus.plus 1 plus.minus 2 p) √(2/(1+2p(p-1))-3), (2p-1)√3}.
 $ <eq:bloch-chip-border>
 //]
 As shown in @fig:chip-in-bloch, @eq:bloch-chip-border parametrizes the boundary of the quantum potato chip in the Bloch sphere (with $0<=p<=1$), similar to @fig:surface.
@@ -593,17 +593,24 @@ $
 cal(L) = log(e^(cal(L)_1) times.circle e^(cal(L)_2))
 $
 
-Any $2 times 2$ doubly stochastic transition matrix depends on only a single parameter, as the requirement that both its rows and columns sum to 1 imposes strict constraints on its form.
+Any logarithm of $2 times 2$ doubly stochastic matrix depends only on a single parameter, as the requirement that both its rows and columns sum to 0 imposes strict constraints on its form.
 $
-cal(L)_1 = mat(x,-x;-x,x), space
-cal(L)_2 = mat(y,-y;-y,y)
+cal(L)_1 = mat(-x,x;x,-x), space
+cal(L)_2 = mat(-y,y;y,-y)
 $
 
 We can then simply solve for $x$ and $y$ as follows:
 $
-x &= 1 / (2p - 1), space
-y &= (1 - 2p) / (4p(1+p(-3 - 2p(p-2)))).
+x &= 1 / (1-2p), space
+y &= -(1 - 2p) / (4p(1-p)((1-p)^2+p^2)).
 $
+Which makes $exp(cal(L)_1)$ stochastic and $exp(cal(L)_2)$ backward-stochastic ($exp(-cal(L)_2)$ is stochastic) for $0<p<1/2$, and other way around for $1/2<p<1$. Opposite direction of inference is what keeps the overall distribution spread (and purity with von Neumann entropy) constant and Shannon entropy of $P times Q$ bounded:
+
+#eqcode($
+1 <= S <= 1.35226<2
+$, <eq:shannon-entropy>, <code:shannon-entropy>
+)
+
 Accordingly, for the overall transition matrix one finds:
 
 #eqcode(
@@ -624,7 +631,7 @@ L_1 = 1/sqrt(1-2p)(bb(I)+sigma_z),
 space space
 L_2 = 1/2sqrt((1-2p)/(p(1-p)(1-2p(1-p)))) space sigma_x.
 $ <eq:Lindblads>
-However, here we have unconventional (negative) opposite damping rates $gamma_1=-gamma_2=1$. Additionally, because of the singularity at $p=1/2$ in @eq:Lindblads, damping rates should swap signs to close the trajectory:
+However, here we have unconventional (negative) opposite damping rates $gamma_1=-gamma_2=1$. Additionally, because of the singularity at $p=1/2$, damping rates should swap signs to close the trajectory:
 
 $
 gamma_1=-gamma_2=cases(&1 "if" 0 < p <= 1/2, - &1 "if" 1/2<p<1)
@@ -637,6 +644,49 @@ $
 
 
 While this specific evolution may lack an immediate physical interpretation, it is significant that, starting from any point on the boundary of the quantum chip, there is a non-conventional dynamical equation, guaranteeing that the quantum state remains pure physical state confined to it.
+
+= Uncertainty
+
+#subpar.grid(
+  columns: (1fr, 1fr),
+  figure(
+    image("images/Constraints.png", width: 80%),
+    caption: [@code:constraints[Constraints on probability from @eq:constraint and @eq:constraint-Wootters.]]
+  ), <fig:constraints>,
+  figure(
+    image("images/uncertainty.png", width: 60%),
+    caption: [@code:uncertainty[Product of uncertainties $Delta X Delta Z$ and its bounds.]]
+  ), <fig:uncertainty>
+)
+
+Standard deviation $Delta_p$ for the Bernoulli distribution with probability parameter $p$ is equal to $sqrt(p(1-p))$. Given that probability basis constraining both parameters according to $1/2(1-1/sqrt(3))<=p<=1/2(1+1/sqrt(3))$ and @eq:constraint, it is possible to derive an analog of the uncertainty principle for the potato chip assuming the distance between values of each binary variables is $hbar$ ($X in {hbar/2,-hbar/2}$ and $Z in {hbar/2,-hbar/2}$):
+
+#eqcode($
+Delta X Delta Z >= hbar^2/(2 sqrt(6)) = hbar/2 mu
+$, <eq:uncertainty>, <code:uncertainty>
+)
+
+The uncertainty principle @robertson1929uncertainty for spin-$1/2$ is:
+
+$
+Delta X Delta Z >= hbar/2 |expval(Y)|
+$
+
+Where in our case:
+$
+expval(X) = hbar sqrt(3)/2 (1-2p)\
+expval(Z) = hbar sqrt(3)/2(1-2q)\
+expval(Y) = hbar sqrt(3)/2(1-2p)(1-2q) = 2/(hbar sqrt(3))expval(X)expval(Z)
+$
+
+And $expval(Y)$ also forms the same potato chip surface:
+
+#figure(
+  image("images/uncertainty-bound.png", width: 60%),
+  caption: [@code:uncertainty-bound[Lower uncertainty bounds.]]
+) <fig:uncertainty-bound>
+
+This can also be easily seen from @eq:matthews by setting $phi=0$, resulting in $y=(x z)/sqrt(3)$ and probabilities of projectors $cal(M)_z$ and $cal(M)_x$ in @eq:sic-density.
 
 = Concluding remarks
 // SIC-POVMs provide a natural way of describing quantum objects in the phase space. In this regard, a qubit state can be described by a probability $4$-vector in a $3$-simplex space. With proper geometric transformation, $3$-simplex can be projected into a tetrahedron in $bb(R)^3$. Quantum states are inside the insphere of the tetrahedron, meaning not all points within the tetrahedron corresponds a quantum state. Independently, a particular surface within the tetrahedron can be constructed by product of two independent $1$-simplex as probability space, providing the most minimal (say classical) description of quantum states. The part of aforementioned surface within the insphere forms a region we call as a quantum potato chip, which is the only part of the tetrahedron probability space that can be reduced to lower-dimensional probability space. This unique feature might provide advantage for these states as potential source for any computation. Of course, an important open question would be how any [universal] quantum computation can be reduced to only probabilistic rules, in a classical way, if possible and what new features should be incorporated into this machinary, to reproduce quantum results. This is a topics of our future research.
@@ -1283,3 +1333,79 @@ Show[QuantumState["-"]["BlochPlot", "ShowAxes" -> False,
 //    sol[[2]]]
 // ```
 
+= @eq:shannon-entropy <code:shannon-entropy>
+```WL
+entropy = 
+ FullSimplify[
+  Total[-# Log2[#]] &@({p q, 
+      p (1 - q), (1 - p) q, (1 - p) (1 - q)} /. {q -> 
+       1/2 - Sqrt[-(((-1 + p) p)/(2 - 4 p + 4 p^2))]}), 0 < p < 1]
+NMaximize[{Re@entropy, 0 < p < 1}, p]
+```
+
+= @fig:constraints <code:constraints>
+```WL
+sol1 = Solve[
+    Norm[Simplify@
+       QuantumWeylTransform[
+         QuantumState[
+          Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]], basis]][
+        "BlochVector"]] == 1, q, Reals] // Simplify // Normal
+sol2 = Solve[
+    Norm[Simplify@
+       QuantumWeylTransform[
+         QuantumState[
+          Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]], 
+          "Wootters"]]["BlochVector"]] == 1, q, Reals] // Simplify // 
+  Normal
+Plot[Evaluate[{q /. sol1, q /. sol2}], {p, 0, 1}, 
+ PlotLegends -> 
+  LineLegend[{ColorData[97][1], 
+    ColorData[97][2]}, {"Probability basis", 
+    "Quasi-probability basis"}], AxesLabel -> {"p", "q"},
+ PlotStyle -> {ColorData[97][1], ColorData[97][1], ColorData[97][2], 
+   ColorData[97][2]}, AspectRatio -> 1]
+```
+
+= @fig:uncertainty <code:uncertainty>
+```WL
+x = {a, a + \[HBar]};
+P = {p, 1 - p};
+Q = {q, 1 - q};
+\[Mu]p = x . P;
+\[Mu]q = x . Q;
+\[Sigma]p = Sqrt[(\[Mu]p - x)^2 . P];
+\[Sigma]q = Sqrt[(\[Mu]q - x)^2 . Q];
+
+FullSimplify[
+ MinValue[{\[Sigma]p \[Sigma]q, 
+   1/6 (3 - Sqrt[3]) <= p <= 1/6 (3 + Sqrt[3])}, p], \[HBar] > 0]
+
+DensityPlot[
+ Evaluate[FullSimplify[\[Sigma]p \[Sigma]q] /. \[HBar] -> 1], {p, 
+  1/6 (3 - Sqrt[3]), 1/6 (3 + Sqrt[3])}, {q, 
+  1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]), 
+  1/6 (3 + Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, 
+ FrameLabel -> {"p", "q"}, ColorFunction -> "SouthwestColors", 
+ PlotLegends -> 
+  BarLegend[{"SouthwestColors", {1/(2 Sqrt[6]), 1/2 (1 - 1/Sqrt[3])}},
+    5, LegendLayout -> "ReversedColumn"], 
+ PlotLabel -> 
+  MaTeX[1/(2 Sqrt[6]) <= 
+    Subscript[\[CapitalDelta], p] Subscript[\[CapitalDelta], q] <= 
+    1/2 (1 - 1/Sqrt[3])], PlotPoints -> 300]
+```
+
+= @fig:uncertainty-bound <code:uncertainty-bound>
+```WL
+Plot3D[Evaluate[{1/2 Sqrt[3] (-1 + 2 p) (-1 + 2 q), 
+   FullSimplify[\[Sigma]p \[Sigma]q] /. \[HBar] -> 1}], {p, 
+  1/6 (3 - Sqrt[3]), 1/6 (3 + Sqrt[3])}, {q, 
+  1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]), 
+  1/6 (3 + Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, 
+ Mesh -> None, PlotPoints -> 100, 
+ PlotLegends -> {MaTeX[
+    TeXForm@"\[LeftAngleBracket]Y\[RightAngleBracket]"], 
+   MaTeX[TeXForm@"\[CapitalDelta]X\[CapitalDelta]Z"]}, 
+ AxesLabel -> {"p", "q", MaTeX["\hbar", Magnification -> 2]}]
+```
