@@ -1,4 +1,4 @@
-#import "template.typ": arxiv
+  #import "template.typ": arxiv
 
 #import "@preview/physica:0.9.3": ket, expval, hbar
 #import "@preview/subpar:0.1.1"
@@ -172,13 +172,13 @@ Therefore, the quantum potato chip is a surface described in @eq:chip1 and param
 //#float([
 
 #eqcode(  
-$ 0<=p<=1, space space
+$ 1/2(1-1/sqrt(3))<=p<=1/2(1+1/sqrt(3)), space space
 1/2(1 - √((-1 + 6p - 6p^2) / (3(1 - 2p + 2p^2)))) <= q <= 1/2(1 + √((-1 + 6p - 6p^2) / (3(1 - 2p + 2p^2)))). $,<eq:boundary>, <code:boundary>
 )
 ]
 //)
 
-Additionally, the original $1$-simplex in @fig:surface is in fact a 1D object embedded in 3D, spanned by points ${{1, 0,0}, {0,1,0}}$. There are two other choices for points as ${{1, 0,0}, {0,0,1}}$, and ${{0,1,0}, {0,0,1}}$. Therefore, overall there are three potato chips, as shown in @fig:3-chips, and their surfaces are described by @eq:chip1, @eq:chip2 and @eq:chip3, with $p,q$ parametrized in @eq:boundary.
+Additionally, the original $1$-simplex in @fig:surface is in fact a 1D object embedded in 3D, spanned by points ${{1, 0,0}, {0,1,0}}$. There are two other choices for points as ${{1, 0,0}, {0,0,1}}$, and ${{0,1,0}, {0,0,1}}$. Therefore, overall there are three potato chips, as shown in @fig:3-chips, and their surfaces are described by @eq:chip1, @eq:chip2 and @eq:chip3, with $p,q$ parametrized in @eq:boundary.#footnote[Any two potato chips are related to the third one by two different ways of applying CNOT matrix (corresponding to permutations $sigma_1=mat(1,2,3,4;2,1,3,4)$ and $sigma_2=mat(1,2,3,4;1,2,4,3)$) to the probability vector.]
 
 #eqcode(
 $
@@ -430,7 +430,7 @@ In practical terms, the system exhibits a decoupling of correlations between the
 
 // The basis in @eq:qbism allows not just to view states as probability vectors, but also operators and arbitrary quantum channels as quasi-stochastic processes.
 
-== Quasi-Probability Bases
+=== Quasi-Probability Bases
 //quasi and relation to experiment?
 
 Historically, the phase-space representation of quantum states, such those in bases of Wootters @Wootters1986-cq and Feynman @Feynman1987-vj #footnote[For qubits Feynman and Wootters bases are the same and we refer to both  interchangeably.], involves quasi-probability distributions. These representations allow for the treatment of quantum states in a manner similar to classical statistical distributions, but with key distinctions, such as the possibility of negative values. For example, Wootters basis is given by:
@@ -659,26 +659,32 @@ While this specific evolution may lack an immediate physical interpretation, it 
   ), <fig:uncertainty>
 )
 
-Standard deviation $Delta_p$ for the Bernoulli distribution with probability parameter $p$ is equal to $sqrt(p(1-p))$. Given that probability basis constraining both parameters according to $1/2(1-1/sqrt(3))<=p<=1/2(1+1/sqrt(3))$ and @eq:constraint, it is possible to derive an analog of the uncertainty principle for the potato chip assuming the distance between values of each binary variables is $hbar$ ($X in {hbar/2,-hbar/2}$ and $Z in {hbar/2,-hbar/2}$):
+As discussed, the quantum potato chip can be reduced into two binary classical variables $p$ and $q$, sampled from 1-simplices. //Their corresponding standard deviation would be $sqrt(p(1-p))$ and $sqrt(q(1-q))$, respectively. 
+It is possible to derive an analog of the uncertainty principle for the potato chip assuming the distance between values of each binary variables is $hbar$, which means $X in {x_0,x_0+hbar}$ with probabilities ${p,1-p}$ and $Z in {z_0,z_0+hbar}$ with probabilities ${q,1-q}$. Note the actual values of $x_0$ and $z_0$ are not important. Therefore, for the mean value and the standard deviation, one finds:
+$
+expval(X) = x_0+hbar(1-p), space expval(Z) = z_0+hbar(1-q)
+$
 
+$
+Delta X = hbar sqrt(p(1-p)), space
+
+Delta Z = hbar sqrt(q(1-q)).
+$<eq:sd>
+
+One can introduce the parameter constraints in @eq:boundary, which parametrize the quantum potato chip, into the standard deviations in @eq:sd and look for the minimum value subject to that constraint. Thus, one finds:
 #eqcode($
-Delta X Delta Z >= hbar^2/(2 sqrt(6)) = hbar/2 mu
+Delta X Delta Z >= hbar/2 (hbar/sqrt(6))
 $, <eq:uncertainty>, <code:uncertainty>
 )
 
-The uncertainty principle @robertson1929uncertainty for spin-$1/2$ is:
+Note above inequality was derived from classical calculations, not the way quantum uncertainty relation is derived.
 
+The Robertson-Schrödinger uncertainty relation @robertson1929uncertainty for spin-$1/2$ reads as $Delta X Delta Z >= hbar/2 |expval(Y)|$. Plugging the mean value of $Y$ into the right side of that inequality, one gets:
 $
-Delta X Delta Z >= hbar/2 |expval(Y)|
+expval(Y) = hbar sqrt(3)/2(1-2p)(1-2q) 
+//= 2/(hbar sqrt(3))expval(X)expval(Z)
 $
-
-Where in our case:
-$
-expval(X) = hbar sqrt(3)/2 (1-2p)\
-expval(Z) = hbar sqrt(3)/2(1-2q)\
-expval(Y) = hbar sqrt(3)/2(1-2p)(1-2q) = 2/(hbar sqrt(3))expval(X)expval(Z)
-$
-
+//with $expval(X) = hbar sqrt(3)/2 (1-2p)$ and $expval(Z) = hbar sqrt(3)/2(1-2q)$.
 And $expval(Y)$ also forms the same potato chip surface:
 
 #figure(
@@ -686,6 +692,13 @@ And $expval(Y)$ also forms the same potato chip surface:
   caption: [@code:uncertainty-bound[Lower uncertainty bounds.]]
 ) <fig:uncertainty-bound>
 
+
+Note the mean value of $Y$ is also given as
+$
+expval(Y) = hbar sqrt(3)/2(1-2p)(1-2q) 
+= 2/(hbar sqrt(3))expval(X)expval(Z)
+$
+with $expval(X) = hbar sqrt(3)/2 (1-2p)$ and $expval(Z) = hbar sqrt(3)/2(1-2q)$.
 This can also be easily seen from @eq:matthews by setting $phi=0$, resulting in $y=(x z)/sqrt(3)$ and probabilities of projectors $cal(M)_z$ and $cal(M)_x$ in @eq:sic-density.
 
 = Concluding remarks
@@ -695,7 +708,7 @@ SIC-POVMs offer an elegant framework for representing qubit states geometrically
 
 This suggests an important question: can universal quantum computation still be achieved after restricting qubits to such states? Exploring this question and possible modifications to quantum formalism will be explored in future work. The geometric structure of SIC-POVMs suggests that understanding these spaces could unlock new pathways in quantum computing and quantum state representation.
 
-a model on binary variables; binary variables are mapped into potato chips
+//a model on binary variables; binary variables are mapped into potato chips
 
 // columns
 
@@ -1379,7 +1392,11 @@ Q = {q, 1 - q};
 
 FullSimplify[
  MinValue[{\[Sigma]p \[Sigma]q, 
-   1/6 (3 - Sqrt[3]) <= p <= 1/6 (3 + Sqrt[3])}, p], \[HBar] > 0]
+   1/6 (3 - Sqrt[3]) <= p <= 1/6 (3 + Sqrt[3]) && 
+    1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]) <= 
+     q <= 1/6 (3 + 
+        Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, {p, 
+   q}], \[HBar] > 0]
 
 DensityPlot[
  Evaluate[FullSimplify[\[Sigma]p \[Sigma]q] /. \[HBar] -> 1], {p, 
@@ -1389,7 +1406,13 @@ DensityPlot[
  FrameLabel -> {"p", "q"}, ColorFunction -> "SouthwestColors", 
  PlotLegends -> 
   BarLegend[{"SouthwestColors", {1/(2 Sqrt[6]), 1/2 (1 - 1/Sqrt[3])}},
-    5, LegendLayout -> "ReversedColumn"], 
+    LabelingFunction -> 
+    Function[
+     Which[Abs[#1 - 1/2 (1 - 1/Sqrt[3])] < 0.001, 
+      Row[{1/2 (1 - 1/Sqrt[3]), "\[TildeEqual]", 
+        N[1/2 (1 - 1/Sqrt[3])]}], Abs[#1 - 1/(2 Sqrt[6])] < 0.001, 
+      Row[{1/(2 Sqrt[6]), "\[TildeEqual]", N[1/(2 Sqrt[6])]}], 
+      True, #]]], 
  PlotLabel -> 
   MaTeX[1/(2 Sqrt[6]) <= 
     Subscript[\[CapitalDelta], p] Subscript[\[CapitalDelta], q] <= 
@@ -1398,14 +1421,20 @@ DensityPlot[
 
 = @fig:uncertainty-bound <code:uncertainty-bound>
 ```WL
-Plot3D[Evaluate[{1/2 Sqrt[3] (-1 + 2 p) (-1 + 2 q), 
-   FullSimplify[\[Sigma]p \[Sigma]q] /. \[HBar] -> 1}], {p, 
+Plot3D[Evaluate[{Abs[1/2 Sqrt[3] (-1 + 2 p) (-1 + 2 q)], 
+   1/2 Sqrt[3] (-1 + 2 p) (-1 + 2 q), 
+   FullSimplify[2 \[Sigma]p \[Sigma]q] /. \[HBar] -> 1}], {p, 
   1/6 (3 - Sqrt[3]), 1/6 (3 + Sqrt[3])}, {q, 
   1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]), 
   1/6 (3 + Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, 
  Mesh -> None, PlotPoints -> 100, 
- PlotLegends -> {MaTeX[
-    TeXForm@"\[LeftAngleBracket]Y\[RightAngleBracket]"], 
-   MaTeX[TeXForm@"\[CapitalDelta]X\[CapitalDelta]Z"]}, 
+ PlotStyle -> (ColorData[97] /@ {1, 2, 3}), 
+ PlotLegends -> 
+  SwatchLegend[
+   ColorData[97] /@ {3, 2, 1}, {MaTeX[
+     TeXForm@"\!\(\*FractionBox[\(2\), \(\[HBar]\)]\)\[CapitalDelta]X\
+\[CapitalDelta]Z"], 
+    MaTeX[TeXForm@"\[LeftAngleBracket]Y\[RightAngleBracket]"], 
+    MaTeX[TeXForm@"|\[LeftAngleBracket]Y\[RightAngleBracket]|"]}], 
  AxesLabel -> {"p", "q", MaTeX["\hbar", Magnification -> 2]}]
 ```
