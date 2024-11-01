@@ -7,7 +7,8 @@
 #show: arxiv.with(
   title: "Quantum Potato Chips",
   authors: ((
-    (name: "Nikolay Murzin", email: "nikm@wolfram.com", affiliation: text([Wolfram Institute, USA#footnote[nmurzin\@wolframinstitute.org]\ Wolfram Research, USA])
+    (name: "Nikolay Murzin", email: "nikm@wolfram.com", affiliation: text([Wolfram Institute, USA//#footnote[nmurzin\@wolframinstitute.org]
+    \ Wolfram Research, USA])
     //, orcid: "0000-0000-0000-0000"
     ),
     (name: "Bruno Tenorio", email: "brunot@wolfram.com", affiliation: "Wolfram Research South America, Peru"),
@@ -73,21 +74,21 @@ A qubit in a normalized quantum state can be expressed in the basis ${bb(I), sig
 // and ${{ 1 / 6, frac(1, 3 √2)},{ frac(1, 3 √2), 1/3}}$ and Bloch vectors of its projectors by $(0,0,1)$, $(-√2/3,-√(2/3),-1/3)$, $(-√2/3,√(2/3),-1/3)$, and $((2√2)/3,0,-1/3)$, respectively.]. 
 That said, the phase-space representation has historically been associated with bases such as Wigner, Wootters, and Gell-Mann @Wootters1986-cq@Feynman1987-vj@gell-mann, which require a quasi-probability approach (i.e., $sum_i p_i = 1$ but some $p_i$ can be negative). In this paper, we focus primarily on POVMs, though we also address the quasi-probability case.
 
-For a qubit state in a SIC-POVM, the probability vector is confined within a simplex embedded in $bb(R)^4$ space. Through appropriate geometric transformations, this 4D object can be linearly projected onto a tetrahedron in $bb(R)^3$ (see @fig:rotation). Two key questions arise. From probability theory perspective, among all the points in the tetrahedron, which ones can be reduced to a disjoint pair of 1-simplices (two line segments), representing a separable probability distribution of uncorrelated binary random variables? From the quantum theory perspective, which points within the tetrahedron correspond to _physical_ quantum states? With answers to these questions in hand, we will be able to find quantum states that correspond to two disjoint probability distributions. This is the core idea of quantum potato chips that we discuss in this paper.
+For a qubit state in a SIC-POVM, the probability vector is confined within a simplex embedded in $bb(R)^4$ space. Through appropriate geometric transformations, this 4D object can be linearly projected onto a tetrahedron in $bb(R)^3$. Two key questions arise. From probability theory perspective, among all the points in the tetrahedron, which ones can be reduced to a disjoint pair of 1-simplices (two line segments), representing a separable probability distribution of uncorrelated binary random variables? From the quantum theory perspective, which points within the tetrahedron correspond to _physical_ quantum states? With answers to these questions in hand, we will be able to find quantum states that correspond to two disjoint probability distributions. This is the core idea of quantum potato chips that we discuss in this paper.
 
 We will show that for states within the quantum potato chips, it is possible to reconstruct the entire state from only two independent projective measurements. Thus we refer to quantum potato chips as the informationally-minimal states, because their probability space can be reduced into two disjoint separable ones. This result embeds classical probability structures within quantum state representations, offering a novel intersection between classical and quantum probabilistic frameworks. An immediate consequence of the existence of these states is that any classical problem with two binary variables can be mapped into qubits. Future work will examine applications and foundational implications in more detail.
 
 *Note for the readers*: All visualizations and some formulas in this paper have corresponding Wolfram Mathematica code, which can be found at the end. These are accessible by clicking on equations or figure captions, if applicable.
 
-#subpar.grid(
-  figure(image("images/Rotate2D.png"), caption: [$"2D" arrow "1D"$]),
-  figure(image("images/Rotate3D.png", width: 90%), caption: [$"3D" arrow "2D"$]),
-  figure(image("images/Rotate4D.png", width: 90%), caption: [$"4D" arrow "3D"$]),
-  columns: (1fr, 1fr, 1fr),
-  align: bottom,
-  caption: [@code:rotation[Simplex projection to its lower dimension by rotation.]],
-  label: <fig:rotation>
-)
+// #subpar.grid(
+//   figure(image("images/Rotate2D.png"), caption: [$"2D" arrow "1D"$]),
+//   figure(image("images/Rotate3D.png", width: 90%), caption: [$"3D" arrow "2D"$]),
+//   figure(image("images/Rotate4D.png", width: 90%), caption: [$"4D" arrow "3D"$]),
+//   columns: (1fr, 1fr, 1fr),
+//   align: bottom,
+//   caption: [@code:rotation[Simplex projection to its lower dimension by rotation.]],
+//   label: <fig:rotation>
+// )
 
 // #[
 // #set text(9.5pt)
@@ -335,39 +336,9 @@ As shown in @fig:chip-in-bloch, @eq:bloch-chip-border parametrizes the boundary 
   label:<fig:3-M>,
 )
 
-= Quantum Potato Chip as Self-Correlation-Free States
+//= Quantum Potato Chip as Self-Correlation-Free States
+= Important features and properties of the quantum potato chip
 We investigate the properties of quantum states within the "quantum potato chip", which are free of correlation between its complete projective measurements. First, we demonstrate that the Matthews correlation measure vanishes exclusively for the quantum potato chip states. Second, we show that states lying on the quantum potato chip can be reconstructed solely through projective measurements (for example measurements in the Pauli-X and Pauli-Z bases).
-
-== Matthews correlation of classical binary variables
-To quantify the correlation of classical binary variables within the quantum potato chip compared to other points in the Bloch sphere, one can use the Matthews correlation coefficient. Given binary variables defining the probability vector as:
-$
-arrow(p) = {p_1,p_2,p_3,p_4} arrow mat(p_11, p_12; p_21, p_22),
-$ <eq:prob_vector>
-the corresponding Matthews correlation coefficient is given by:
-$
-phi = (p_22 p_11 - p_12 p_21) / sqrt((p_11 + p_12)(p_21+p_22)(p_11+p_21)(p_12+p_22)) = (sqrt(3)y-x z)/(sqrt((3-x^2)(3-z^2))),
-$ <eq:matthews>
-where in the last step, we replace variables by the Bloch vector components ${x,y,z}$ using @eq:inverse-replacement-rule. 
-
-As shown in @fig:matthew, the only region with $phi=0$ is the quantum potato chip. This means that measurement predictions in @eq:prob_vector, which can be obtained experimentally by measuring POVMs, are uncorrelated, much like flipping a pair of independent biased coins (probabilities are split as described by @eq:kp-vector). Equivalently, the states within the quantum potato chips can be represented as a product state in terms of the measurement basis associated with a SIC-POVM; precisely the scenario where the qubit state does not exhibit quantum correlations between certain SIC-POVM measurement outcomes.
-
-
-#subpar.grid(
-  columns: (1fr, 1fr, 0.1fr),
-  figure(image("images/PhiContours.png",width: 75%)), <fig:PhiContours>,
-
-  figure(image("images/PhiContours-2.png", width: 55%)),
-  <fig:PhiContours-2>,
-
-  caption: [@PhiContours[Matthews correlation coefficient @eq:matthews for the pair of binary variables forming the probability vector @eq:prob_vector. $phi$ has minimum $-1/sqrt(3)$ and maximum $1/sqrt(3)$ at the poles of the sphere]],
-  label:<fig:matthew>
-)
-
-The @eq:matthews takes a more natural form if Bloch sphere's radius#footnote[Read our footnote for insphere, after @eq:chip1] is $1/sqrt(3)$:
-
-$
-phi = (y-x z)/(sqrt((1-x^2)(1-z^2))),
-$
 
 == Construction of Quantum State by Projective Measurements
 === SIC-POVM case
@@ -489,7 +460,98 @@ A similar factorization argument for the probability vectors of the quantum pota
 
 // #figure(image("Matreshka.png",width: 60%), caption: [@Matreshka[The correspondence between the probabilistic phase-space basis, quasi-probabilistic Feynman basis @Feynman1987-vj and SIC-POVM projectors. Each tetrahedron is a scaled down version of the previous one by a factor of $sqrt(3)$]])<fig:matreshka>
 
-= Effect of Error Channels on the Quantum Potato Chip
+
+== Matthews correlation of classical binary variables
+To quantify the correlation of classical binary variables within the quantum potato chip compared to other points in the Bloch sphere, one can use the Matthews correlation coefficient. Given binary variables defining the probability vector as:
+$
+arrow(p) = {p_1,p_2,p_3,p_4} arrow mat(p_11, p_12; p_21, p_22),
+$ <eq:prob_vector>
+the corresponding Matthews correlation coefficient is given by:
+$
+phi = (p_22 p_11 - p_12 p_21) / sqrt((p_11 + p_12)(p_21+p_22)(p_11+p_21)(p_12+p_22)) = (sqrt(3)y-x z)/(sqrt((3-x^2)(3-z^2))),
+$ <eq:matthews>
+where in the last step, we replace variables by the Bloch vector components ${x,y,z}$ using @eq:inverse-replacement-rule. 
+
+As shown in @fig:matthew, the only region with $phi=0$ is the quantum potato chip. This means that measurement predictions in @eq:prob_vector, which can be obtained experimentally by measuring POVMs, are uncorrelated, much like flipping a pair of independent biased coins (probabilities are split as described by @eq:kp-vector). Equivalently, the states within the quantum potato chips can be represented as a product state in terms of the measurement basis associated with a SIC-POVM; precisely the scenario where the qubit state does not exhibit quantum correlations between certain SIC-POVM measurement outcomes.
+
+
+#subpar.grid(
+  columns: (1fr, 1fr, 0.1fr),
+  figure(image("images/PhiContours.png",width: 75%)), <fig:PhiContours>,
+
+  figure(image("images/PhiContours-2.png", width: 55%)),
+  <fig:PhiContours-2>,
+
+  caption: [@PhiContours[Matthews correlation coefficient @eq:matthews for the pair of binary variables forming the probability vector @eq:prob_vector. $phi$ has minimum $-1/sqrt(3)$ and maximum $1/sqrt(3)$ at the poles of the sphere]],
+  label:<fig:matthew>
+)
+
+The @eq:matthews takes a more natural form if Bloch sphere's radius#footnote[Read our footnote for insphere, after @eq:chip1] is $1/sqrt(3)$:
+
+$
+phi = (y-x z)/(sqrt((1-x^2)(1-z^2))),
+$
+
+
+// == Uncertainty relations
+
+// #subpar.grid(
+//   figure(
+//     image("images/Constraints.png", width: 80%),
+//     caption: [@code:constraints[Constraints on probability from @eq:constraint and @eq:constraint-Wootters.]]
+//   ), <fig:constraints>,
+//   figure(
+//     image("images/uncertainty.png", width: 60%),
+//     caption: [@code:uncertainty[Product of uncertainties $Delta X Delta Z$ and its bounds.]]
+//   ),
+//   columns: (1fr, 1fr),
+//   caption:[XXXXXXXX], <fig:uncertainty>
+// )
+
+// Since the quantum potato chip states can be represented as two binary variables, one can derive a bound on uncertainty for any observable using either classical or quantum arguments.
+
+// As discussed, the quantum potato chip can be reduced into two binary classical variables $p$ and $q$, sampled from 1-simplices. //Their corresponding standard deviation would be $sqrt(p(1-p))$ and $sqrt(q(1-q))$, respectively. 
+// It is possible to derive an analog of the uncertainty principle for the potato chip assuming the distance between values of each binary variables is $hbar$, which means $X in {x_0,x_0+hbar}$ with probabilities ${p,1-p}$ and $Z in {z_0,z_0+hbar}$ with probabilities ${q,1-q}$. Note the actual values of $x_0$ and $z_0$ are not important. Therefore, for the mean value and the standard deviation, one finds:
+// $
+// expval(X) = x_0+hbar(1-p), space expval(Z) = z_0+hbar(1-q)
+// $
+
+// $
+// Delta X = hbar sqrt(p(1-p)), space
+
+// Delta Z = hbar sqrt(q(1-q)).
+// $<eq:sd>
+
+// One can introduce the parameter constraints in @eq:boundary, which parametrize the quantum potato chip, into the standard deviations in @eq:sd and look for the minimum value subject to that constraint. Thus, one finds:
+// #eqcode($
+// Delta X Delta Z >= hbar/2 (hbar/sqrt(6))
+// $, <eq:uncertainty>, <code:uncertainty>
+// )
+
+// Note above inequality was derived from classical calculations, not the way quantum uncertainty relation is derived.
+
+// The Robertson-Schrödinger uncertainty relation @robertson1929uncertainty for spin-$1/2$ reads as $Delta X Delta Z >= hbar/2 |expval(Y)|$. Plugging the mean value of $Y$ into the right side of that inequality, one gets:
+// $
+// expval(Y) = hbar sqrt(3)/2(1-2p)(1-2q) 
+// //= 2/(hbar sqrt(3))expval(X)expval(Z)
+// $
+// //with $expval(X) = hbar sqrt(3)/2 (1-2p)$ and $expval(Z) = hbar sqrt(3)/2(1-2q)$.
+// And $expval(Y)$ also forms the same potato chip surface:
+
+// #figure(
+//   image("images/uncertainty-bound.png", width: 60%),
+//   caption: [@code:uncertainty-bound[Lower uncertainty bounds.]]
+// ) <fig:uncertainty-bound>
+
+
+// Note the mean value of $Y$ is also given as
+// $
+// expval(Y) = 2/(hbar sqrt(3))expval(X)expval(Z)
+// $
+// with $expval(X) = hbar sqrt(3)/2 (1-2p)$ and $expval(Z) = hbar sqrt(3)/2(1-2q)$.
+// This can also be easily seen from @eq:matthews by setting $phi=0$, resulting in $y=(x z)/sqrt(3)$ and probabilities of projectors $cal(M)_z$ and $cal(M)_x$ in @eq:sic-density.
+
+== Effect of Error Channels on the Quantum Potato Chip
 In this section, we explore the impact of noise on the quantum potato chip. Specifically, we model various types of errors using known quantum channels. See @tab:channels for detailed description of quantum channels, their Kraus operators and how they transform the Bloch sphere.
 
 
@@ -576,7 +638,7 @@ On the other hand, other channels map states such that they go outside of the qu
 
 
 
-= Unconventional Liouvillian Evolution at the Boundary of Quantum Potato Chips
+== Unconventional Liouvillian Evolution at the Boundary of Quantum Potato Chips
 
 A natural physics question arises: can the boundary of the quantum potato chip be understood as the result of state evolution under a master equation, starting from an appropriate initial condition?
 
@@ -604,10 +666,10 @@ $
 x &= 1 / (1-2p), space
 y &= -(1 - 2p) / (4p(1-p)((1-p)^2+p^2)).
 $
-Which makes $exp(cal(L)_1)$ stochastic and $exp(cal(L)_2)$ backward-stochastic ($exp(-cal(L)_2)$ is stochastic) for $0<p<1/2$, and other way around for $1/2<p<1$. Opposite direction of inference is what keeps the overall distribution spread (and purity with von Neumann entropy) constant and Shannon entropy of $P times Q$ bounded:
+For $0<p<1/2$, the term $exp(cal(L)_1)$ is stochastic and $exp(cal(L)_2)$ backward-stochastic#footnote[If $exp(cal(A))$ is stochastic then $exp(-cal(A))$ is called backward-stochastic.], while for $1/2<p<1$, the term $exp(cal(L)_2)$ is stochastic and $exp(cal(L)_1)$ is backward-stochastic. Opposite direction of inference is what keeps the overall distribution spread (and purity with von Neumann entropy) constant. The Shannon entropy, $H$, of $P times Q$ would be bounded:
 
 #eqcode($
-1 <= S <= 1.35226<2
+1 <= H <= 1.35226<2
 $, <eq:shannon-entropy>, <code:shannon-entropy>
 )
 
@@ -645,61 +707,6 @@ $
 
 While this specific evolution may lack an immediate physical interpretation, it is significant that, starting from any point on the boundary of the quantum chip, there is a non-conventional dynamical equation, guaranteeing that the quantum state remains pure physical state confined to it.
 
-= Uncertainty
-
-#subpar.grid(
-  columns: (1fr, 1fr),
-  figure(
-    image("images/Constraints.png", width: 80%),
-    caption: [@code:constraints[Constraints on probability from @eq:constraint and @eq:constraint-Wootters.]]
-  ), <fig:constraints>,
-  figure(
-    image("images/uncertainty.png", width: 60%),
-    caption: [@code:uncertainty[Product of uncertainties $Delta X Delta Z$ and its bounds.]]
-  ), <fig:uncertainty>
-)
-
-As discussed, the quantum potato chip can be reduced into two binary classical variables $p$ and $q$, sampled from 1-simplices. //Their corresponding standard deviation would be $sqrt(p(1-p))$ and $sqrt(q(1-q))$, respectively. 
-It is possible to derive an analog of the uncertainty principle for the potato chip assuming the distance between values of each binary variables is $hbar$, which means $X in {x_0,x_0+hbar}$ with probabilities ${p,1-p}$ and $Z in {z_0,z_0+hbar}$ with probabilities ${q,1-q}$. Note the actual values of $x_0$ and $z_0$ are not important. Therefore, for the mean value and the standard deviation, one finds:
-$
-expval(X) = x_0+hbar(1-p), space expval(Z) = z_0+hbar(1-q)
-$
-
-$
-Delta X = hbar sqrt(p(1-p)), space
-
-Delta Z = hbar sqrt(q(1-q)).
-$<eq:sd>
-
-One can introduce the parameter constraints in @eq:boundary, which parametrize the quantum potato chip, into the standard deviations in @eq:sd and look for the minimum value subject to that constraint. Thus, one finds:
-#eqcode($
-Delta X Delta Z >= hbar/2 (hbar/sqrt(6))
-$, <eq:uncertainty>, <code:uncertainty>
-)
-
-Note above inequality was derived from classical calculations, not the way quantum uncertainty relation is derived.
-
-The Robertson-Schrödinger uncertainty relation @robertson1929uncertainty for spin-$1/2$ reads as $Delta X Delta Z >= hbar/2 |expval(Y)|$. Plugging the mean value of $Y$ into the right side of that inequality, one gets:
-$
-expval(Y) = hbar sqrt(3)/2(1-2p)(1-2q) 
-//= 2/(hbar sqrt(3))expval(X)expval(Z)
-$
-//with $expval(X) = hbar sqrt(3)/2 (1-2p)$ and $expval(Z) = hbar sqrt(3)/2(1-2q)$.
-And $expval(Y)$ also forms the same potato chip surface:
-
-#figure(
-  image("images/uncertainty-bound.png", width: 60%),
-  caption: [@code:uncertainty-bound[Lower uncertainty bounds.]]
-) <fig:uncertainty-bound>
-
-
-Note the mean value of $Y$ is also given as
-$
-expval(Y) = hbar sqrt(3)/2(1-2p)(1-2q) 
-= 2/(hbar sqrt(3))expval(X)expval(Z)
-$
-with $expval(X) = hbar sqrt(3)/2 (1-2p)$ and $expval(Z) = hbar sqrt(3)/2(1-2q)$.
-This can also be easily seen from @eq:matthews by setting $phi=0$, resulting in $y=(x z)/sqrt(3)$ and probabilities of projectors $cal(M)_z$ and $cal(M)_x$ in @eq:sic-density.
 
 = Concluding remarks
 // SIC-POVMs provide a natural way of describing quantum objects in the phase space. In this regard, a qubit state can be described by a probability $4$-vector in a $3$-simplex space. With proper geometric transformation, $3$-simplex can be projected into a tetrahedron in $bb(R)^3$. Quantum states are inside the insphere of the tetrahedron, meaning not all points within the tetrahedron corresponds a quantum state. Independently, a particular surface within the tetrahedron can be constructed by product of two independent $1$-simplex as probability space, providing the most minimal (say classical) description of quantum states. The part of aforementioned surface within the insphere forms a region we call as a quantum potato chip, which is the only part of the tetrahedron probability space that can be reduced to lower-dimensional probability space. This unique feature might provide advantage for these states as potential source for any computation. Of course, an important open question would be how any [universal] quantum computation can be reduced to only probabilistic rules, in a classical way, if possible and what new features should be incorporated into this machinary, to reproduce quantum results. This is a topics of our future research.
@@ -740,79 +747,79 @@ Computational aspects of this paper (e.g., mathematical derivation of formulas a
 //  Mesh -> None, PlotPoints -> 200, Boxed -> False, Axes -> False]
 // ```
 
-= @fig:rotation <code:rotation>
-```WL
-GraphicsRow[
- {
-  ListLinePlot[{
-    {{0, 1}, {1, 0}},
-    RotationTransform[{{1, 1}, {0, 1}}]@{{0, 1}, {1, 0}}
-  },
+// = @fig:rotation <code:rotation>
+// ```WL
+// GraphicsRow[
+//  {
+//   ListLinePlot[{
+//     {{0, 1}, {1, 0}},
+//     RotationTransform[{{1, 1}, {0, 1}}]@{{0, 1}, {1, 0}}
+//   },
   
-  Mesh -> All, 
-  Ticks -> None, 
-  PlotRange -> {{-1, 1}, {0, 1}}, 
-  AspectRatio -> 1/2, AxesLabel -> {"X", "Y"}
+//   Mesh -> All, 
+//   Ticks -> None, 
+//   PlotRange -> {{-1, 1}, {0, 1}}, 
+//   AspectRatio -> 1/2, AxesLabel -> {"X", "Y"}
    
-],
+// ],
   
-  Framed[
-    "\!\(\*OverscriptBox[\(\[LongRightArrow]\),SubscriptBox[\(U\),\\(rot\)]]\)",
-    FrameStyle -> None
-  ],
+//   Framed[
+//     "\!\(\*OverscriptBox[\(\[LongRightArrow]\),SubscriptBox[\(U\),\\(rot\)]]\)",
+//     FrameStyle -> None
+//   ],
   
-  NumberLinePlot[Interval[{0, 1}], PlotStyle -> ColorData[97][2]]
+//   NumberLinePlot[Interval[{0, 1}], PlotStyle -> ColorData[97][2]]
   
-  }
-]
+//   }
+// ]
 
-GraphicsRow[{
+// GraphicsRow[{
   
-  Graphics3D[
-   {#, TranslationTransform[{0, 0, -1/Sqrt[3]}]@
-       RotationTransform[{ConstantArray[1, 3], UnitVector[3, 3]}]@#}
-     &@Simplex[IdentityMatrix[3]],
-   Axes -> True, AxesLabel -> {"X", "Y", "Z"},
-   Ticks -> None, ViewPoint -> {3, -1, 1}
-   ],
+//   Graphics3D[
+//    {#, TranslationTransform[{0, 0, -1/Sqrt[3]}]@
+//        RotationTransform[{ConstantArray[1, 3], UnitVector[3, 3]}]@#}
+//      &@Simplex[IdentityMatrix[3]],
+//    Axes -> True, AxesLabel -> {"X", "Y", "Z"},
+//    Ticks -> None, ViewPoint -> {3, -1, 1}
+//    ],
   
-  Framed[
-    "\!\(\*OverscriptBox[\(\[LongRightArrow]\), SubscriptBox[\(U\), \\(rot\)]]\)", 
-    FrameStyle -> None
-  ], 
+//   Framed[
+//     "\!\(\*OverscriptBox[\(\[LongRightArrow]\), SubscriptBox[\(U\), \\(rot\)]]\)", 
+//     FrameStyle -> None
+//   ], 
   
-  TernaryListPlot[{}, Method -> {"Backdrop" -> LightOrange}]
+//   TernaryListPlot[{}, Method -> {"Backdrop" -> LightOrange}]
   
-  }]
+//   }]
 
 
-GraphicsRow[{
-  Style[MatrixForm@IdentityMatrix[4], 30],
+// GraphicsRow[{
+//   Style[MatrixForm@IdentityMatrix[4], 30],
   
-  Framed[
-   "\!\(\*OverscriptBox[\(\[Rule]\), SubscriptBox[\(U\), \(rot\)]]\)",
-    FrameStyle -> None
-  ],
+//   Framed[
+//    "\!\(\*OverscriptBox[\(\[Rule]\), SubscriptBox[\(U\), \(rot\)]]\)",
+//     FrameStyle -> None
+//   ],
   
-  Graphics3D[
-   {
-    Opacity[.5], 
-    Simplex@RotationTransform[{ConstantArray[1, 4], 
-         UnitVector[4, 1]}][IdentityMatrix[4]][[All, 2 ;;]]
-    },
+//   Graphics3D[
+//    {
+//     Opacity[.5], 
+//     Simplex@RotationTransform[{ConstantArray[1, 4], 
+//          UnitVector[4, 1]}][IdentityMatrix[4]][[All, 2 ;;]]
+//     },
     
-   Boxed -> False,
+//    Boxed -> False,
    
-   Epilog -> {
-     AxisObject[Line[{{.03, 0.15}, {0.23, .83}}], {0, 1}, 
-      TickDirection -> "Inward", TickLengths -> 0], 
-     AxisObject[Line[{{.77, 0.15}, {.03, 0.15}}], {0, 1}, 
-      TickDirection -> "Inward", TickLengths -> 0], 
-     AxisObject[Line[{{.03, 0.15}, {.6, 0.67}}], {0, 1}, 
-      TickLabels -> None, TickLengths -> 0]
-     }]
-  }]
-```
+//    Epilog -> {
+//      AxisObject[Line[{{.03, 0.15}, {0.23, .83}}], {0, 1}, 
+//       TickDirection -> "Inward", TickLengths -> 0], 
+//      AxisObject[Line[{{.77, 0.15}, {.03, 0.15}}], {0, 1}, 
+//       TickDirection -> "Inward", TickLengths -> 0], 
+//      AxisObject[Line[{{.03, 0.15}, {.6, 0.67}}], {0, 1}, 
+//       TickLabels -> None, TickLengths -> 0]
+//      }]
+//   }]
+// ```
 
 = @eq:gen-rotation <code:gen-rotation>
 ```WL
@@ -1356,85 +1363,85 @@ entropy =
 NMaximize[{Re@entropy, 0 < p < 1}, p]
 ```
 
-= @fig:constraints <code:constraints>
-```WL
-sol1 = Solve[
-    Norm[Simplify@
-       QuantumWeylTransform[
-         QuantumState[
-          Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]], basis]][
-        "BlochVector"]] == 1, q, Reals] // Simplify // Normal
-sol2 = Solve[
-    Norm[Simplify@
-       QuantumWeylTransform[
-         QuantumState[
-          Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]], 
-          "Wootters"]]["BlochVector"]] == 1, q, Reals] // Simplify // 
-  Normal
-Plot[Evaluate[{q /. sol1, q /. sol2}], {p, 0, 1}, 
- PlotLegends -> 
-  LineLegend[{ColorData[97][1], 
-    ColorData[97][2]}, {"Probability basis", 
-    "Quasi-probability basis"}], AxesLabel -> {"p", "q"},
- PlotStyle -> {ColorData[97][1], ColorData[97][1], ColorData[97][2], 
-   ColorData[97][2]}, AspectRatio -> 1]
-```
+// = @fig:constraints <code:constraints>
+// ```WL
+// sol1 = Solve[
+//     Norm[Simplify@
+//        QuantumWeylTransform[
+//          QuantumState[
+//           Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]], basis]][
+//         "BlochVector"]] == 1, q, Reals] // Simplify // Normal
+// sol2 = Solve[
+//     Norm[Simplify@
+//        QuantumWeylTransform[
+//          QuantumState[
+//           Flatten[KroneckerProduct[{p, 1 - p}, {q, 1 - q}]], 
+//           "Wootters"]]["BlochVector"]] == 1, q, Reals] // Simplify // 
+//   Normal
+// Plot[Evaluate[{q /. sol1, q /. sol2}], {p, 0, 1}, 
+//  PlotLegends -> 
+//   LineLegend[{ColorData[97][1], 
+//     ColorData[97][2]}, {"Probability basis", 
+//     "Quasi-probability basis"}], AxesLabel -> {"p", "q"},
+//  PlotStyle -> {ColorData[97][1], ColorData[97][1], ColorData[97][2], 
+//    ColorData[97][2]}, AspectRatio -> 1]
+// ```
 
-= @fig:uncertainty <code:uncertainty>
-```WL
-x = {a, a + \[HBar]};
-P = {p, 1 - p};
-Q = {q, 1 - q};
-\[Mu]p = x . P;
-\[Mu]q = x . Q;
-\[Sigma]p = Sqrt[(\[Mu]p - x)^2 . P];
-\[Sigma]q = Sqrt[(\[Mu]q - x)^2 . Q];
+// = @fig:uncertainty <code:uncertainty>
+// ```WL
+// x = {a, a + \[HBar]};
+// P = {p, 1 - p};
+// Q = {q, 1 - q};
+// \[Mu]p = x . P;
+// \[Mu]q = x . Q;
+// \[Sigma]p = Sqrt[(\[Mu]p - x)^2 . P];
+// \[Sigma]q = Sqrt[(\[Mu]q - x)^2 . Q];
 
-FullSimplify[
- MinValue[{\[Sigma]p \[Sigma]q, 
-   1/6 (3 - Sqrt[3]) <= p <= 1/6 (3 + Sqrt[3]) && 
-    1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]) <= 
-     q <= 1/6 (3 + 
-        Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, {p, 
-   q}], \[HBar] > 0]
+// FullSimplify[
+//  MinValue[{\[Sigma]p \[Sigma]q, 
+//    1/6 (3 - Sqrt[3]) <= p <= 1/6 (3 + Sqrt[3]) && 
+//     1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]) <= 
+//      q <= 1/6 (3 + 
+//         Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, {p, 
+//    q}], \[HBar] > 0]
 
-DensityPlot[
- Evaluate[FullSimplify[\[Sigma]p \[Sigma]q] /. \[HBar] -> 1], {p, 
-  1/6 (3 - Sqrt[3]), 1/6 (3 + Sqrt[3])}, {q, 
-  1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]), 
-  1/6 (3 + Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, 
- FrameLabel -> {"p", "q"}, ColorFunction -> "SouthwestColors", 
- PlotLegends -> 
-  BarLegend[{"SouthwestColors", {1/(2 Sqrt[6]), 1/2 (1 - 1/Sqrt[3])}},
-    LabelingFunction -> 
-    Function[
-     Which[Abs[#1 - 1/2 (1 - 1/Sqrt[3])] < 0.001, 
-      Row[{1/2 (1 - 1/Sqrt[3]), "\[TildeEqual]", 
-        N[1/2 (1 - 1/Sqrt[3])]}], Abs[#1 - 1/(2 Sqrt[6])] < 0.001, 
-      Row[{1/(2 Sqrt[6]), "\[TildeEqual]", N[1/(2 Sqrt[6])]}], 
-      True, #]]], 
- PlotLabel -> 
-  MaTeX[1/(2 Sqrt[6]) <= 
-    Subscript[\[CapitalDelta], p] Subscript[\[CapitalDelta], q] <= 
-    1/2 (1 - 1/Sqrt[3])], PlotPoints -> 300]
-```
+// DensityPlot[
+//  Evaluate[FullSimplify[\[Sigma]p \[Sigma]q] /. \[HBar] -> 1], {p, 
+//   1/6 (3 - Sqrt[3]), 1/6 (3 + Sqrt[3])}, {q, 
+//   1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]), 
+//   1/6 (3 + Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, 
+//  FrameLabel -> {"p", "q"}, ColorFunction -> "SouthwestColors", 
+//  PlotLegends -> 
+//   BarLegend[{"SouthwestColors", {1/(2 Sqrt[6]), 1/2 (1 - 1/Sqrt[3])}},
+//     LabelingFunction -> 
+//     Function[
+//      Which[Abs[#1 - 1/2 (1 - 1/Sqrt[3])] < 0.001, 
+//       Row[{1/2 (1 - 1/Sqrt[3]), "\[TildeEqual]", 
+//         N[1/2 (1 - 1/Sqrt[3])]}], Abs[#1 - 1/(2 Sqrt[6])] < 0.001, 
+//       Row[{1/(2 Sqrt[6]), "\[TildeEqual]", N[1/(2 Sqrt[6])]}], 
+//       True, #]]], 
+//  PlotLabel -> 
+//   MaTeX[1/(2 Sqrt[6]) <= 
+//     Subscript[\[CapitalDelta], p] Subscript[\[CapitalDelta], q] <= 
+//     1/2 (1 - 1/Sqrt[3])], PlotPoints -> 300]
+// ```
 
-= @fig:uncertainty-bound <code:uncertainty-bound>
-```WL
-Plot3D[Evaluate[{Abs[1/2 Sqrt[3] (-1 + 2 p) (-1 + 2 q)], 
-   1/2 Sqrt[3] (-1 + 2 p) (-1 + 2 q), 
-   FullSimplify[2 \[Sigma]p \[Sigma]q] /. \[HBar] -> 1}], {p, 
-  1/6 (3 - Sqrt[3]), 1/6 (3 + Sqrt[3])}, {q, 
-  1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]), 
-  1/6 (3 + Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, 
- Mesh -> None, PlotPoints -> 100, 
- PlotStyle -> (ColorData[97] /@ {1, 2, 3}), 
- PlotLegends -> 
-  SwatchLegend[
-   ColorData[97] /@ {3, 2, 1}, {MaTeX[
-     TeXForm@"\!\(\*FractionBox[\(2\), \(\[HBar]\)]\)\[CapitalDelta]X\
-\[CapitalDelta]Z"], 
-    MaTeX[TeXForm@"\[LeftAngleBracket]Y\[RightAngleBracket]"], 
-    MaTeX[TeXForm@"|\[LeftAngleBracket]Y\[RightAngleBracket]|"]}], 
- AxesLabel -> {"p", "q", MaTeX["\hbar", Magnification -> 2]}]
-```
+// = @fig:uncertainty-bound <code:uncertainty-bound>
+// ```WL
+// Plot3D[Evaluate[{Abs[1/2 Sqrt[3] (-1 + 2 p) (-1 + 2 q)], 
+//    1/2 Sqrt[3] (-1 + 2 p) (-1 + 2 q), 
+//    FullSimplify[2 \[Sigma]p \[Sigma]q] /. \[HBar] -> 1}], {p, 
+//   1/6 (3 - Sqrt[3]), 1/6 (3 + Sqrt[3])}, {q, 
+//   1/6 (3 - Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)]), 
+//   1/6 (3 + Sqrt[3] Sqrt[(-1 + 6 p - 6 p^2)/(1 - 2 p + 2 p^2)])}, 
+//  Mesh -> None, PlotPoints -> 100, 
+//  PlotStyle -> (ColorData[97] /@ {1, 2, 3}), 
+//  PlotLegends -> 
+//   SwatchLegend[
+//    ColorData[97] /@ {3, 2, 1}, {MaTeX[
+//      TeXForm@"\!\(\*FractionBox[\(2\), \(\[HBar]\)]\)\[CapitalDelta]X\
+// \[CapitalDelta]Z"], 
+//     MaTeX[TeXForm@"\[LeftAngleBracket]Y\[RightAngleBracket]"], 
+//     MaTeX[TeXForm@"|\[LeftAngleBracket]Y\[RightAngleBracket]|"]}], 
+//  AxesLabel -> {"p", "q", MaTeX["\hbar", Magnification -> 2]}]
+// ```
